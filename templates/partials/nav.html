@@ -1,18 +1,67 @@
-<nav class="navbar navbar-expand-lg bg-body-tertiary">
+<style>
+  .choir-navbar {
+    background-color: #0b1f3a !important;
+  }
+
+  .choir-navbar .navbar-brand {
+    color: white !important;
+    font-weight: 600;
+  }
+
+  .choir-navbar .nav-link {
+    color: #dbeafe !important;
+    margin-left: 6px;
+    padding: 8px 14px !important;
+    border-radius: 14px;
+  }
+
+  .choir-navbar .nav-link:hover {
+    color: white !important;
+    background-color: #173b68 !important;
+  }
+
+  .choir-navbar .nav-link.active {
+    color: white !important;
+    background-color: #2563eb !important;
+    border-radius: 14px;
+    font-weight: 600;
+  }
+</style>
+
+<nav class="navbar navbar-expand-lg choir-navbar" data-bs-theme="dark">
   <div class="container-fluid">
     <a class="navbar-brand" href="{{ url_for('home') }}">Tempe High School Choir</a>
+
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
+
     <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-      <div class="navbar-nav">
-        <a class="nav-link active" aria-current="page" href="{{ url_for('home') }}">Home</a>
-        <a class="nav-link" href="#">Music</a>
-        <a class="nav-link" href="#">Snack Roster</a>
-        <a class="nav-link" href="#">FAQs</a>
-        <a class="nav-link" href="#">Photos</a>
-        <a class="nav-link" href="#">Sign Up</a>
-      </div>
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item">
+          <a class="nav-link {% if request.endpoint == 'home' %}active{% endif %}" href="{{ url_for('home') }}">Home</a>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link {% if request.endpoint == 'music' %}active{% endif %}" href="{{ url_for('music') }}">Music</a>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link {% if request.endpoint == 'snack_roster' %}active{% endif %}" href="#">Snack Roster</a>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link {% if request.endpoint == 'faqs' %}active{% endif %}" href="#">FAQs</a>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link {% if request.endpoint == 'photos' %}active{% endif %}" href="#">Photos</a>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link {% if request.endpoint == 'sign_up' %}active{% endif %}" href="#">Sign Up</a>
+        </li>
+      </ul>
     </div>
   </div>
 </nav>
