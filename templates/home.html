@@ -10,20 +10,34 @@
 <section class="content-reveal">
   <div class="container py-5">
     <h2>Welcome to the Tempe High School Choir Website</h2>
-    <p class="lead">Upcoming Performances:</p>
-    <p>
-      Opera House Performance <br>
-      &emsp;- Where: Meet at C6; Performance at the Opera House <br>
-      &emsp;- Time: Meet at 8:00 AM <br>
-      &emsp;- Date: Wednesday 3 June 26 <br>
-      &emsp;- Notes: Don't bring a metal water bottle; Lunch goes 3:00-6:30
-      <hr>
-      School Spec <br>
-      &emsp;- Where: Meet at C6; Performance in Homebush <br>
-      &emsp;- Time: TBD <br>
-      &emsp;- Date: TBD <br>
-      &emsp;- Notes: Unconfirmed, may not get in
-    </p>
+    <div class="performance-layout">
+      <div class="performance-info">
+        <p class="lead">Upcoming Performances:</p>
+        <p>
+          Opera House Performance <br>
+          &emsp;- Where: Meet at C6; Performance at the Opera House <br>
+          &emsp;- Time: Meet at 8:00 AM <br>
+          &emsp;- Date: Wednesday 3 June 26 <br>
+          &emsp;- Notes: Don't bring a metal water bottle; Lunch goes 3:00-6:30
+        </p>
+        <hr>
+        <p>
+          School Spec <br>
+          &emsp;- Where: Meet at C6; Performance in Homebush <br>
+          &emsp;- Time: TBD <br>
+          &emsp;- Date: TBD <br>
+          &emsp;- Notes: Unconfirmed, may not get in
+        </p>
+      </div>
+
+      <div class="performance-image-wrap">
+        <img
+          src="{{ url_for('static', filename='res/placeholder.png') }}"
+          alt="Choir performance"
+          class="performance-image"
+        >
+      </div>
+    </div>
   </div>
 </section>
 {% endblock %}
