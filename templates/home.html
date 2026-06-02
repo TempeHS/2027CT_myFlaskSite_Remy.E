@@ -1,7 +1,29 @@
-{% extends 'base.html' %} {% block title %}Home - My Flask Site{% endblock %} {%
-block content %}
-<div class="container mt-5">
-  <h1>Welcome to My Website!</h1>
-  <p class="lead">This site is built with Flask and Bootstrap.</p>
-</div>
+{% extends 'base.html' %}
+{% block title %}Home - My Flask Site{% endblock %}
+{% block content %}
+<section class="hero-image img1">
+  <div class="hero-overlay">
+    <h1>Tempe High School Choir</h1>
+  </div>
+</section>
+
+<section class="content-reveal">
+  <div class="container py-5">
+    <h2>Welcome to the Tempe High School Choir Website</h2>
+    <p class="lead">Upcoming Performances:</p>
+    <p>
+      Opera House Performance <br>
+      &emsp;- Where: Meet at C6; Performance at the Opera House <br>
+      &emsp;- Time: Meet at 8:00 AM <br>
+      &emsp;- Date: Wednesday 3 June 26 <br>
+      &emsp;- Notes: Don't bring a metal water bottle; Lunch goes 3:00-6:30
+      <hr>
+      School Spec <br>
+      &emsp;- Where: Meet at C6; Performance in Homebush <br>
+      &emsp;- Time: TBD <br>
+      &emsp;- Date: TBD <br>
+      &emsp;- Notes: Unconfirmed, may not get in
+    </p>
+  </div>
+</section>
 {% endblock %}
