@@ -14,7 +14,7 @@
       <div class="performance-info">
         <p class="lead">Upcoming Performances:</p>
         <p>
-          Opera House Performance <br>
+          <b>Opera House Performance</b> <br>
           &emsp;- Where: Meet at C6; Performance at the Opera House <br>
           &emsp;- Time: Meet at 8:00 AM <br>
           &emsp;- Date: Wednesday 3 June 26 <br>
@@ -22,7 +22,7 @@
         </p>
         <hr>
         <p>
-          School Spec <br>
+          <b>School Spec</b> <br>
           &emsp;- Where: Meet at C6; Performance in Homebush <br>
           &emsp;- Time: TBD <br>
           &emsp;- Date: TBD <br>
@@ -31,11 +31,79 @@
       </div>
 
       <div class="performance-image-wrap">
-        <img
-          src="{{ url_for('static', filename='res/placeholder.png') }}"
-          alt="Choir performance"
-          class="performance-image"
+        <div
+          id="performanceCarousel"
+          class="carousel slide carousel-fade performance-carousel"
+          data-bs-ride="carousel"
+          data-bs-interval="3500"
+          data-bs-pause="false"
         >
+          <div class="carousel-indicators">
+            <button
+              type="button"
+              data-bs-target="#performanceCarousel"
+              data-bs-slide-to="0"
+              class="active"
+              aria-current="true"
+              aria-label="Slide 1"
+            ></button>
+            <button
+              type="button"
+              data-bs-target="#performanceCarousel"
+              data-bs-slide-to="1"
+              aria-label="Slide 2"
+            ></button>
+            <button
+              type="button"
+              data-bs-target="#performanceCarousel"
+              data-bs-slide-to="2"
+              aria-label="Slide 3"
+            ></button>
+          </div>
+
+          <div class="carousel-inner">
+            <div class="carousel-item active">
+              <img
+                src="{{ url_for('static', filename='res/placeholder0.png') }}"
+                class="d-block w-100 performance-image"
+                alt="Choir performance slide 1"
+              >
+            </div>
+            <div class="carousel-item">
+              <img
+                src="{{ url_for('static', filename='res/placeholder1.png') }}"
+                class="d-block w-100 performance-image"
+                alt="Choir performance slide 2"
+              >
+            </div>
+            <div class="carousel-item">
+              <img
+                src="{{ url_for('static', filename='res/placeholder2.png') }}"
+                class="d-block w-100 performance-image"
+                alt="Choir performance slide 3"
+              >
+            </div>
+          </div>
+
+          <button
+            class="carousel-control-prev"
+            type="button"
+            data-bs-target="#performanceCarousel"
+            data-bs-slide="prev"
+          >
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+          </button>
+          <button
+            class="carousel-control-next"
+            type="button"
+            data-bs-target="#performanceCarousel"
+            data-bs-slide="next"
+          >
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+          </button>
+        </div>
       </div>
     </div>
   </div>

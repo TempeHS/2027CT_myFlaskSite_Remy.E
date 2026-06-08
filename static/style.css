@@ -30,7 +30,7 @@ body {
 }
 
 .img1 {
-  background-image: url("res/placeholder.png");
+  background-image: url("res/placeholder0.png");
 }
 
 .hero-overlay {
@@ -64,14 +64,31 @@ body {
 
 .performance-image-wrap {
   flex: 1;
+  display: flex;
+  justify-content: center;
+}
+
+.performance-carousel {
+  width: 100%;
+  max-width: 340px;
+  border-radius: 10px;
+  overflow: hidden;
 }
 
 .performance-image {
   width: 100%;
-  max-width: 320px;
-  height: auto;
+  height: 420px;
   display: block;
-  border-radius: 10px;
+  object-fit: cover;
+}
+
+.performance-carousel .carousel-item {
+  height: 420px;
+}
+
+.performance-carousel .carousel-control-prev,
+.performance-carousel .carousel-control-next {
+  width: 12%;
 }
 
 @media (max-width: 768px) {
@@ -79,7 +96,7 @@ body {
     flex-direction: column;
   }
 
-  .performance-image {
+  .performance-carousel {
     max-width: 100%;
   }
 }
