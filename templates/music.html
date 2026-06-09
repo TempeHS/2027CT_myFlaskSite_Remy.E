@@ -3,8 +3,46 @@
 {% block title %}Music - My Flask Site{% endblock %}
 
 {% block content %}
-<div class="container mt-5">
-    <h1>Music</h1>
-    <p>Sheet music and tracks !</p>
-</div>
+<section class="music-page py-5">
+  <div class="container">
+    <div class="music-header">
+      <h1>Music</h1>
+      <p class="lead">Sheet music and tracks.</p>
+    </div>
+
+    <div class="row g-4">
+      {% for piece in sheet_music %}
+      <div class="col-12 col-lg-6">
+        <article class="music-card h-100">
+          <div class="music-card-body">
+            <div class="music-card-copy">
+              <h2>{{ piece.title }}</h2>
+              <p>{{ piece.description }}</p>
+            </div>
+
+            <div class="pdf-viewer-shell">
+              <iframe
+                src="{{ url_for('static', filename='res/sheetMusic/' ~ piece.filename) }}#toolbar=0&navpanes=0&scrollbar=1"
+                class="pdf-viewer"
+                title="{{ piece.title }} sheet music preview"
+              ></iframe>
+            </div>
+
+            <div class="music-card-actions">
+              <a
+                class="btn btn-outline-dark"
+                href="{{ url_for('static', filename='res/sheetMusic/' ~ piece.filename) }}"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Open PDF
+              </a>
+            </div>
+          </div>
+        </article>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
 {% endblock %}
