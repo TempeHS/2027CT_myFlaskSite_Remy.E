@@ -11,7 +11,7 @@
   .choir-navbar .nav-link {
     color: #dbeafe !important;
     margin-left: 6px;
-    padding: 8px 14px !important;
+    padding: px 14px !important;
     border-radius: 14px;
   }
 
@@ -47,19 +47,19 @@
         </li>
 
         <li class="nav-item">
-          <a class="nav-link {% if request.endpoint == 'snack_roster' %}active{% endif %}" href="#">Snack Roster</a>
+          <a class="nav-link {% if request.endpoint == 'snack_roster' %}active{% endif %}" href="{{ url_for('snack_roster') }}">Snack Roster</a>
         </li>
 
         <li class="nav-item">
-          <a class="nav-link {% if request.endpoint == 'faqs' %}active{% endif %}" href="#">FAQs</a>
+          <a class="nav-link {% if request.endpoint == 'faqs' %}active{% endif %}" href="{{ url_for('faqs') }}">FAQs</a>
         </li>
 
         <li class="nav-item">
-          <a class="nav-link {% if request.endpoint == 'photos' %}active{% endif %}" href="#">Photos</a>
+          <a class="nav-link {% if request.endpoint == 'photos' %}active{% endif %}" href="{{ url_for('photos') }}">Photos</a>
         </li>
 
         <li class="nav-item">
-          <a class="nav-link {% if request.endpoint == 'sign_up' %}active{% endif %}" href="#">Sign Up</a>
+          <a class="nav-link {% if request.endpoint == 'sign_up' %}active{% endif %}" href="{{ url_for('sign_up') }}">Sign Up</a>
         </li>
       </ul>
     </div>

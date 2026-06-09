@@ -39,5 +39,21 @@ def home():
 def music():
   return render_template("music.html", sheet_music=SHEET_MUSIC)
 
+@app.route("/snack-roster")
+def snack_roster():
+  return render_template("snack_roster.html")
+
+@app.route("/faqs")
+def faqs():
+  return render_template("faqs.html")
+
+@app.route("/photos")
+def photos():
+  return render_template("photos.html")
+
+@app.route("/sign-up")
+def sign_up():
+  return render_template("sign_up.html")
+
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000, debug=True)
