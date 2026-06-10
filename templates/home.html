@@ -20,29 +20,15 @@
           <div class="card border-0 shadow-sm site-panel h-100">
             <div class="card-body p-4">
               <p class="lead mb-4">Upcoming Performances:</p>
-          <p>
-            <b>Opera House Performance</b> <br>
-            &emsp;- Where: Meet at C6; Performance at the Opera House <br>
-            &emsp;- Time: Meet at 4:00 PM <br>
-            &emsp;- Date: Thursday 10 June 26 <br>
-            &emsp;- Notes: Don't bring a metal water bottle; Dinner goes 3:00-6:30
-          </p>
-          <hr>
-          <p>
-            <b>Ensembles Night</b> <br>
-            &emsp;- Where: Meet outside Hall <br>
-            &emsp;- Time: Meet at 8:00 AM <br>
-            &emsp;- Date: Wednesday 3 June 26 <br>
-            &emsp;- Notes: Performance starts at 6:30 PM
-          </p>
-          <hr>
-          <p>
-            <b>School Spec</b> <br>
-            &emsp;- Where: Meet at C6; Performance in Homebush <br>
-            &emsp;- Time: TBD <br>
-            &emsp;- Date: TBD <br>
-            &emsp;- Notes: Unconfirmed, may not get in
-          </p>
+              {% for performance in performances %}
+              <div class="{% if not loop.last %}mb-4 pb-4 border-bottom{% endif %}">
+                <p class="fs-5 fw-semibold mb-2">{{ performance.title }}</p>
+                <p class="mb-1"><span class="fw-semibold">Where:</span> {{ performance.where }}</p>
+                <p class="mb-1"><span class="fw-semibold">Time:</span> {{ performance.time }}</p>
+                <p class="mb-1"><span class="fw-semibold">Date:</span> {{ performance.date }}</p>
+                <p class="mb-0"><span class="fw-semibold">Notes:</span> {{ performance.notes }}</p>
+              </div>
+              {% endfor %}
             </div>
           </div>
         </div>

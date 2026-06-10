@@ -1,19 +1,40 @@
 import csv
+import json
+import os
 import re
 from datetime import datetime, UTC
+from functools import wraps
 from pathlib import Path
 
-from flask import Flask, redirect, render_template, request, url_for
+from flask import (
+    Flask,
+    flash,
+    redirect,
+    render_template,
+    request,
+    send_file,
+    session,
+    url_for,
+)
+from werkzeug.utils import secure_filename
 
 app = Flask(__name__)
+app.secret_key = os.environ.get("FLASK_SECRET_KEY", "tempe-choir-dev-secret")
 
 IMAGE_EXTENSIONS = {".jpg", ".jpeg", ".png", ".webp", ".gif"}
 VALID_SCHOOL_YEARS = ["7", "8", "9", "10", "11", "12"]
 SIGN_UPS_FILE = Path(app.root_path) / "data" / "sign_ups.csv"
+PERFORMANCES_FILE = Path(app.root_path) / "data" / "upcoming_performances.json"
+IMAGES_DIR = Path(app.static_folder) / "res" / "images"
 NSW_EDU_EMAIL_PATTERN = re.compile(
     r"^[A-Z0-9._%+-]+@education\.nsw\.gov\.au$",
     re.IGNORECASE,
 )
+ADMIN_SIGN_IN = {
+    "full_name": "admin",
+    "school_year": "12",
+    "email": "admin",
+}
 
 SHEET_MUSIC = [
     {
@@ -43,15 +64,38 @@ SHEET_MUSIC = [
     },
 ]
 
+DEFAULT_PERFORMANCES = [
+    {
+        "title": "Opera House Performance",
+        "where": "Meet at C6; Performance at the Opera House",
+        "time": "Meet at 4:00 PM",
+        "date": "Thursday 10 June 26",
+        "notes": "Don't bring a metal water bottle; Dinner goes 3:00-6:30",
+    },
+    {
+        "title": "Ensembles Night",
+        "where": "Meet outside Hall",
+        "time": "Meet at 8:00 AM",
+        "date": "Wednesday 3 June 26",
+        "notes": "Performance starts at 6:30 PM",
+    },
+    {
+        "title": "School Spec",
+        "where": "Meet at C6; Performance in Homebush",
+        "time": "TBD",
+        "date": "TBD",
+        "notes": "Unconfirmed, may not get in",
+    },
+]
+
 
 def load_gallery_images():
-  image_dir = Path(app.static_folder) / "res" / "images"
   gallery_images = []
 
-  if not image_dir.exists():
+  if not IMAGES_DIR.exists():
     return gallery_images
 
-  for image_path in sorted(image_dir.iterdir()):
+  for image_path in sorted(IMAGES_DIR.iterdir()):
     if image_path.is_file() and image_path.suffix.lower() in IMAGE_EXTENSIONS:
       title = image_path.stem.replace("_", " ").replace("-", " ").title()
       gallery_images.append(
@@ -62,6 +106,55 @@ def load_gallery_images():
       )
 
   return gallery_images
+
+
+def load_upcoming_performances():
+  if not PERFORMANCES_FILE.exists():
+    return [item.copy() for item in DEFAULT_PERFORMANCES]
+
+  try:
+    saved_performances = json.loads(PERFORMANCES_FILE.read_text(encoding="utf-8"))
+  except (OSError, json.JSONDecodeError):
+    return [item.copy() for item in DEFAULT_PERFORMANCES]
+
+  performances = []
+  for item in saved_performances:
+    performances.append(
+        {
+            "title": item.get("title", "").strip(),
+            "where": item.get("where", "").strip(),
+            "time": item.get("time", "").strip(),
+            "date": item.get("date", "").strip(),
+            "notes": item.get("notes", "").strip(),
+        }
+    )
+
+  return [item for item in performances if item["title"]] or [item.copy() for item in DEFAULT_PERFORMANCES]
+
+
+def save_upcoming_performances(performances):
+  PERFORMANCES_FILE.parent.mkdir(exist_ok=True)
+  PERFORMANCES_FILE.write_text(
+      json.dumps(performances, indent=2),
+      encoding="utf-8",
+  )
+
+
+def performance_form_rows():
+  performances = load_upcoming_performances()
+  minimum_rows = 5
+  while len(performances) < minimum_rows:
+    performances.append(
+        {
+            "title": "",
+            "where": "",
+            "time": "",
+            "date": "",
+            "notes": "",
+        }
+    )
+
+  return performances
 
 
 def blank_sign_up_form():
@@ -94,6 +187,14 @@ def validate_sign_up(form_data):
   return cleaned, errors
 
 
+def is_admin_sign_in_attempt(form_data):
+  return (
+      form_data["full_name"].strip().lower() == ADMIN_SIGN_IN["full_name"]
+      and form_data["school_year"].strip() == ADMIN_SIGN_IN["school_year"]
+      and form_data["email"].strip().lower() == ADMIN_SIGN_IN["email"]
+  )
+
+
 def save_sign_up(sign_up_data):
   SIGN_UPS_FILE.parent.mkdir(exist_ok=True)
   file_exists = SIGN_UPS_FILE.exists() and SIGN_UPS_FILE.stat().st_size > 0
@@ -116,10 +217,73 @@ def save_sign_up(sign_up_data):
         }
     )
 
+
+def load_sign_ups():
+  if not SIGN_UPS_FILE.exists():
+    return []
+
+  with SIGN_UPS_FILE.open("r", newline="", encoding="utf-8") as csv_file:
+    reader = csv.DictReader(csv_file)
+    rows = list(reader)
+
+  return list(reversed(rows))
+
+
+def normalize_uploaded_filename(filename):
+  safe_name = secure_filename(filename)
+  if not safe_name:
+    return ""
+
+  candidate = IMAGES_DIR / safe_name
+  if not candidate.exists():
+    return safe_name
+
+  stem = candidate.stem
+  suffix = candidate.suffix
+  timestamp = datetime.now(UTC).strftime("%Y%m%d%H%M%S")
+  return f"{stem}-{timestamp}{suffix}"
+
+
+def allowed_image_file(filename):
+  return Path(filename).suffix.lower() in IMAGE_EXTENSIONS
+
+
+def save_uploaded_images(files):
+  IMAGES_DIR.mkdir(parents=True, exist_ok=True)
+  saved_files = []
+
+  for file in files:
+    if not file or not file.filename:
+      continue
+
+    if not allowed_image_file(file.filename):
+      continue
+
+    final_name = normalize_uploaded_filename(file.filename)
+    if not final_name:
+      continue
+
+    file.save(IMAGES_DIR / final_name)
+    saved_files.append(final_name)
+
+  return saved_files
+
+
+def admin_required(view_func):
+  @wraps(view_func)
+  def wrapped_view(*args, **kwargs):
+    if not session.get("is_admin"):
+      flash("Admin sign-in required.", "warning")
+      return redirect(url_for("sign_up"))
+
+    return view_func(*args, **kwargs)
+
+  return wrapped_view
+
 @app.route("/")
 @app.route("/home")
 def home():
-  return render_template("home.html")
+  return render_template("home.html", performances=load_upcoming_performances())
 
 @app.route("/music")
 def music():
@@ -150,6 +314,12 @@ def sign_up():
         "school_year": request.form.get("school_year", ""),
         "email": request.form.get("email", ""),
     }
+
+    if is_admin_sign_in_attempt(submitted_data):
+      session["is_admin"] = True
+      flash("Admin access granted.", "success")
+      return redirect(url_for("admin_dashboard"))
+
     form_data, errors = validate_sign_up(submitted_data)
 
     if not errors:
@@ -168,6 +338,83 @@ def sign_up():
       success=success,
       school_years=VALID_SCHOOL_YEARS,
   )
+
+
+@app.route("/admin", methods=["GET", "POST"])
+@admin_required
+def admin_dashboard():
+  performance_rows = performance_form_rows()
+  sign_ups = load_sign_ups()
+
+  if request.method == "POST":
+    action = request.form.get("action", "")
+
+    if action == "performances":
+      titles = request.form.getlist("performance_title")
+      wheres = request.form.getlist("performance_where")
+      times = request.form.getlist("performance_time")
+      dates = request.form.getlist("performance_date")
+      notes = request.form.getlist("performance_notes")
+      updated_performances = []
+
+      for title, where, time, date, notes_value in zip(titles, wheres, times, dates, notes):
+        cleaned_row = {
+            "title": title.strip(),
+            "where": where.strip(),
+            "time": time.strip(),
+            "date": date.strip(),
+            "notes": notes_value.strip(),
+        }
+        if cleaned_row["title"]:
+          updated_performances.append(cleaned_row)
+
+      if updated_performances:
+        save_upcoming_performances(updated_performances)
+        flash("Upcoming performances updated.", "success")
+      else:
+        flash("Please keep at least one performance with a title.", "warning")
+
+      return redirect(url_for("admin_dashboard"))
+
+    if action == "photos":
+      uploaded_files = request.files.getlist("photo_uploads")
+      saved_files = save_uploaded_images(uploaded_files)
+
+      if saved_files:
+        flash(f"Uploaded {len(saved_files)} photo(s).", "success")
+      else:
+        flash("No valid image files were uploaded.", "warning")
+
+      return redirect(url_for("admin_dashboard"))
+
+  return render_template(
+      "admin.html",
+      performance_rows=performance_rows,
+      sign_ups=sign_ups,
+  )
+
+
+@app.route("/admin/sign-ups/download")
+@admin_required
+def download_sign_ups():
+  if not SIGN_UPS_FILE.exists():
+    flash("There are no sign-ups to download yet.", "warning")
+    return redirect(url_for("admin_dashboard"))
+
+  return send_file(
+      SIGN_UPS_FILE,
+      as_attachment=True,
+      download_name="sign_ups.csv",
+      mimetype="text/csv",
+  )
+
+
+@app.route("/admin/logout", methods=["POST"])
+@admin_required
+def admin_logout():
+  session.clear()
+  flash("Admin signed out.", "success")
+  return redirect(url_for("sign_up"))
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000, debug=True)
