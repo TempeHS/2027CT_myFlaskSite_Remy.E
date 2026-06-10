@@ -3,32 +3,32 @@
 {% block title %}Music - My Flask Site{% endblock %}
 
 {% block content %}
-<section class="music-page py-5">
+<section class="site-page-bg py-5">
   <div class="container">
-    <div class="music-header">
-      <h1>Music</h1>
+    <div class="mb-4">
+      <h1 class="display-5 fw-semibold">Music</h1>
       <p class="lead">Sheet music and tracks.</p>
     </div>
 
     <div class="row g-4">
       {% for piece in sheet_music %}
       <div class="col-12 col-lg-6">
-        <article class="music-card h-100">
-          <div class="music-card-body">
-            <div class="music-card-copy">
-              <h2>{{ piece.title }}</h2>
-              <p>{{ piece.description }}</p>
+        <article class="card border-0 shadow-sm site-panel h-100">
+          <div class="card-body p-4">
+            <div class="mb-3">
+              <h2 class="h4 mb-2">{{ piece.title }}</h2>
+              <p class="text-secondary mb-0">{{ piece.description }}</p>
             </div>
 
-            <div class="pdf-viewer-shell">
+            <div class="rounded-4 overflow-hidden site-frame">
               <iframe
                 src="{{ url_for('static', filename='res/sheetMusic/' ~ piece.filename) }}#toolbar=0&navpanes=0&scrollbar=1"
-                class="pdf-viewer"
+                class="pdf-viewer w-100 border-0 d-block bg-white"
                 title="{{ piece.title }} sheet music preview"
               ></iframe>
             </div>
 
-            <div class="music-card-actions">
+            <div class="d-flex flex-wrap gap-3 mt-3">
               <a
                 class="btn btn-outline-dark"
                 href="{{ url_for('static', filename='res/sheetMusic/' ~ piece.filename) }}"

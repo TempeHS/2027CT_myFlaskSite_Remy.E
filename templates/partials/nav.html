@@ -1,65 +1,35 @@
-<style>
-  .choir-navbar {
-    background-color: #0b1f3a !important;
-  }
-
-  .choir-navbar .navbar-brand {
-    color: white !important;
-    font-weight: 600;
-  }
-
-  .choir-navbar .nav-link {
-    color: #dbeafe !important;
-    margin-left: 6px;
-    padding: px 14px !important;
-    border-radius: 14px;
-  }
-
-  .choir-navbar .nav-link:hover {
-    color: white !important;
-    background-color: #173b68 !important;
-  }
-
-  .choir-navbar .nav-link.active {
-    color: white !important;
-    background-color: #2563eb !important;
-    border-radius: 14px;
-    font-weight: 600;
-  }
-</style>
-
-<nav class="navbar navbar-expand-lg fixed-top choir-navbar" data-bs-theme="dark">
-  <div class="container-fluid">
-    <a class="navbar-brand" href="{{ url_for('home') }}">Tempe High School Choir</a>
+<nav class="navbar navbar-expand-lg fixed-top navbar-dark bg-primary shadow-sm" data-bs-theme="dark">
+  <div class="container">
+    <a class="navbar-brand fw-semibold" href="{{ url_for('home') }}">Tempe High School Choir</a>
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
 
     <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-      <ul class="navbar-nav ms-auto">
+      <ul class="navbar-nav ms-auto gap-lg-2">
         <li class="nav-item">
-          <a class="nav-link {% if request.endpoint == 'home' %}active{% endif %}" href="{{ url_for('home') }}">Home</a>
+          <a class="nav-link rounded-pill px-3 {% if request.endpoint == 'home' %}active fw-semibold bg-light text-primary{% endif %}" href="{{ url_for('home') }}">Home</a>
         </li>
 
         <li class="nav-item">
-          <a class="nav-link {% if request.endpoint == 'music' %}active{% endif %}" href="{{ url_for('music') }}">Music</a>
+          <a class="nav-link rounded-pill px-3 {% if request.endpoint == 'music' %}active fw-semibold bg-light text-primary{% endif %}" href="{{ url_for('music') }}">Music</a>
         </li>
 
         <li class="nav-item">
-          <a class="nav-link {% if request.endpoint == 'snack_roster' %}active{% endif %}" href="{{ url_for('snack_roster') }}">Snack Roster</a>
+          <a class="nav-link rounded-pill px-3 {% if request.endpoint == 'snack_roster' %}active fw-semibold bg-light text-primary{% endif %}" href="{{ url_for('snack_roster') }}">Snack Roster</a>
         </li>
 
         <li class="nav-item">
-          <a class="nav-link {% if request.endpoint == 'faqs' %}active{% endif %}" href="{{ url_for('faqs') }}">FAQs</a>
+          <a class="nav-link rounded-pill px-3 {% if request.endpoint == 'faqs' %}active fw-semibold bg-light text-primary{% endif %}" href="{{ url_for('faqs') }}">FAQs</a>
         </li>
 
         <li class="nav-item">
-          <a class="nav-link {% if request.endpoint == 'photos' %}active{% endif %}" href="{{ url_for('photos') }}">Photos</a>
+          <a class="nav-link rounded-pill px-3 {% if request.endpoint == 'photos' %}active fw-semibold bg-light text-primary{% endif %}" href="{{ url_for('photos') }}">Photos</a>
         </li>
 
         <li class="nav-item">
-          <a class="nav-link {% if request.endpoint == 'sign_up' %}active{% endif %}" href="{{ url_for('sign_up') }}">Sign Up</a>
+          <a class="nav-link rounded-pill px-3 {% if request.endpoint == 'sign_up' %}active fw-semibold bg-light text-primary{% endif %}" href="{{ url_for('sign_up') }}">Sign Up</a>
         </li>
       </ul>
     </div>
