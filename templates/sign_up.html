@@ -5,9 +5,102 @@
 {% block content %}
 <section class="site-page-bg py-5">
   <div class="container">
-    <div class="mb-4">
-      <h1 class="display-5 fw-semibold">Sign Up</h1>
-      <p class="lead">Registrations, volunteer forms, and expressions of interest.</p>
+    <div class="row justify-content-center">
+      <div class="col-12 col-lg-8">
+        <div class="mb-4">
+          <h1 class="display-5 fw-semibold">Sign Up</h1>
+          <p class="lead">Register here with your school details and choir contact email.</p>
+        </div>
+
+        {% if success %}
+        <div class="alert alert-success" role="alert">
+          Sign-up received. It has been saved locally for now.
+        </div>
+        {% endif %}
+
+        {% if form_message %}
+        <div class="alert alert-danger" role="alert">
+          {{ form_message }}
+        </div>
+        {% endif %}
+
+        <article class="card border-0 shadow-sm site-panel">
+          <div class="card-body p-4 p-lg-5">
+            <form method="post" novalidate class="row g-3">
+              <div class="col-12">
+                <label for="full_name" class="form-label fw-semibold">Full Name</label>
+                <input
+                  type="text"
+                  id="full_name"
+                  name="full_name"
+                  class="form-control form-control-lg {% if errors.get('full_name') %}is-invalid{% endif %}"
+                  value="{{ form_data.full_name }}"
+                  autocomplete="name"
+                  required
+                >
+                {% if errors.get('full_name') %}
+                <div class="invalid-feedback">
+                  {{ errors.get('full_name') }}
+                </div>
+                {% endif %}
+              </div>
+
+              <div class="col-12 col-md-6">
+                <label for="school_year" class="form-label fw-semibold">School Year</label>
+                <select
+                  id="school_year"
+                  name="school_year"
+                  class="form-select form-select-lg {% if errors.get('school_year') %}is-invalid{% endif %}"
+                  required
+                >
+                  <option value="">Choose your year</option>
+                  {% for year in school_years %}
+                  <option value="{{ year }}" {% if form_data.school_year == year %}selected{% endif %}>
+                    Year {{ year }}
+                  </option>
+                  {% endfor %}
+                </select>
+                {% if errors.get('school_year') %}
+                <div class="invalid-feedback">
+                  {{ errors.get('school_year') }}
+                </div>
+                {% endif %}
+              </div>
+
+              <div class="col-12 col-md-6">
+                <label for="email" class="form-label fw-semibold">School Email</label>
+                <input
+                  type="email"
+                  id="email"
+                  name="email"
+                  class="form-control form-control-lg {% if errors.get('email') %}is-invalid{% endif %}"
+                  value="{{ form_data.email }}"
+                  placeholder="john.doe1@education.nsw.gov.au"
+                  autocomplete="email"
+                  inputmode="email"
+                  required
+                >
+                {% if errors.get('email') %}
+                <div class="invalid-feedback">
+                  {{ errors.get('email') }}
+                </div>
+                {% endif %}
+              </div>
+
+              <div class="col-12">
+                <p class="text-secondary small mb-0">
+                </p>
+              </div>
+
+              <div class="col-12 d-flex flex-wrap gap-3 pt-2">
+                <button type="submit" class="btn btn-primary btn-lg px-4">
+                  Submit
+                </button>
+              </div>
+            </form>
+          </div>
+        </article>
+      </div>
     </div>
   </div>
 </section>
