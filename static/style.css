@@ -163,6 +163,31 @@ body {
   flex-wrap: wrap;
 }
 
+.photo-card {
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.photo-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 22px 44px rgba(60, 45, 25, 0.12);
+}
+
+.photo-link {
+  display: block;
+  background: #f3ede4;
+}
+
+.photo-gallery-image {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  display: block;
+  object-fit: cover;
+}
+
+.photos-grid .music-card-copy h2 {
+  margin-bottom: 0;
+}
+
 @media (max-width: 768px) {
   .performance-layout {
     flex-direction: column;

@@ -9,6 +9,44 @@
       <h1>Photos</h1>
       <p class="lead">Performance highlights, rehearsal moments, and choir memories.</p>
     </div>
+
+    <div class="row g-4 photos-grid">
+      {% for image in gallery_images %}
+      <div class="col-12 col-md-6 col-xl-4">
+        <article class="music-card photo-card h-100">
+          <a
+            href="{{ url_for('static', filename='res/images/' ~ image.filename) }}"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="photo-link"
+          >
+            <img
+              src="{{ url_for('static', filename='res/images/' ~ image.filename) }}"
+              alt="{{ image.title }}"
+              class="photo-gallery-image"
+            >
+          </a>
+
+          <div class="music-card-body">
+            <div class="music-card-copy">
+              <h2>{{ image.title }}</h2>
+            </div>
+          </div>
+        </article>
+      </div>
+      {% else %}
+      <div class="col-12">
+        <article class="music-card">
+          <div class="music-card-body">
+            <div class="music-card-copy">
+              <h2>No Images Yet</h2>
+              <p>Add image files to `static/res/images` and they will appear here automatically.</p>
+            </div>
+          </div>
+        </article>
+      </div>
+      {% endfor %}
+    </div>
   </div>
 </section>
 {% endblock %}

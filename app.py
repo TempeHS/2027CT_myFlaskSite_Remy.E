@@ -1,6 +1,10 @@
+from pathlib import Path
+
 from flask import Flask, render_template
 
 app = Flask(__name__)
+
+IMAGE_EXTENSIONS = {".jpg", ".jpeg", ".png", ".webp", ".gif"}
 
 SHEET_MUSIC = [
     {
@@ -30,6 +34,26 @@ SHEET_MUSIC = [
     },
 ]
 
+
+def load_gallery_images():
+  image_dir = Path(app.static_folder) / "res" / "images"
+  gallery_images = []
+
+  if not image_dir.exists():
+    return gallery_images
+
+  for image_path in sorted(image_dir.iterdir()):
+    if image_path.is_file() and image_path.suffix.lower() in IMAGE_EXTENSIONS:
+      title = image_path.stem.replace("_", " ").replace("-", " ").title()
+      gallery_images.append(
+        {
+          "filename": image_path.name,
+          "title": title,
+        }
+      )
+
+  return gallery_images
+
 @app.route("/")
 @app.route("/home")
 def home():
@@ -49,7 +73,7 @@ def faqs():
 
 @app.route("/photos")
 def photos():
-  return render_template("photos.html")
+  return render_template("photos.html", gallery_images=load_gallery_images())
 
 @app.route("/sign-up")
 def sign_up():
