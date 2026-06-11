@@ -1,0 +1,33 @@
+Attribution and Copyright Information
+=====================================
+
+Project
+- Tempe High School Choir Flask Website
+- Copyright (c) 2026 Remy Ellis
+
+Software and Framework Credits
+- Flask: https://flask.palletsprojects.com/
+  License: BSD-3-Clause
+- Bootstrap 5.3.0: https://getbootstrap.com/
+  License: MIT
+
+Repository and Source
+- GitHub repository:
+  https://github.com/TempeHS/2027CT_myFlaskSite_Remy.E
+- Project license:
+  GNU General Public License v3.0
+  See the LICENSE file in this repository.
+
+Media and Content Notes
+- Photos stored in static/res/images are included as part of this school
+  website project. Copyright remains with the original photographer or
+  rights holder where applicable.
+- Sheet music files stored in static/res/sheetMusic remain subject to the
+  copyright and permissions of their original composers, arrangers,
+  publishers, and rights holders.
+- Inclusion of media or music in this project does not transfer ownership
+  or grant separate reuse rights unless explicitly stated elsewhere.
+
+Additional Notes
+- No separate custom webfont or icon-pack attribution is currently required
+  by this repository.
