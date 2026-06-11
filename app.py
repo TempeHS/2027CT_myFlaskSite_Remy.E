@@ -305,14 +305,59 @@ def admin_required(view_func):
   def wrapped_view(*args, **kwargs):
     if not session.get("is_admin"):
       flash("Admin sign-in required.", "warning")
-      return redirect(url_for("sign_up"))
+      return redirect(mono_path_for("sign_up"))
 
     return view_func(*args, **kwargs)
 
   return wrapped_view
 
+
+def mono_mode_enabled():
+  return request.path == "/mono" or request.path.endswith("/mono")
+
+
+def standard_path_for(endpoint, **values):
+  base_path = url_for(endpoint, **values)
+
+  if base_path == "/mono":
+    return "/"
+
+  if base_path.endswith("/mono"):
+    return base_path[:-5]
+
+  return base_path
+
+
+def mono_path_for(endpoint, **values):
+  base_path = standard_path_for(endpoint, **values)
+
+  if not mono_mode_enabled():
+    return base_path
+
+  if endpoint in {"license_text", "attribution_text", "download_sign_ups"}:
+    return base_path
+
+  if base_path == "/":
+    return "/mono"
+
+  if base_path.endswith("/mono"):
+    return base_path
+
+  return f"{base_path.rstrip('/')}/mono"
+
+
+@app.context_processor
+def inject_display_modes():
+  return {
+      "mono_mode": mono_mode_enabled(),
+      "mono_url": mono_path_for,
+      "plain_url": standard_path_for,
+  }
+
 @app.route("/")
+@app.route("/mono")
 @app.route("/home")
+@app.route("/home/mono")
 def home():
   return render_template(
       "home.html",
@@ -342,22 +387,27 @@ def attribution_text():
   )
 
 @app.route("/music")
+@app.route("/music/mono")
 def music():
   return render_template("music.html", sheet_music=SHEET_MUSIC)
 
 @app.route("/snack-roster")
+@app.route("/snack-roster/mono")
 def snack_roster():
   return render_template("snack_roster.html")
 
 @app.route("/faqs")
+@app.route("/faqs/mono")
 def faqs():
   return render_template("faqs.html")
 
 @app.route("/photos")
+@app.route("/photos/mono")
 def photos():
   return render_template("photos.html", gallery_images=load_gallery_images())
 
 @app.route("/sign-up", methods=["GET", "POST"])
+@app.route("/sign-up/mono", methods=["GET", "POST"])
 def sign_up():
   form_data = blank_sign_up_form()
   errors = {}
@@ -374,7 +424,7 @@ def sign_up():
     if is_admin_sign_in_attempt(submitted_data):
       session["is_admin"] = True
       flash("Admin access granted.", "success")
-      return redirect(url_for("admin_dashboard"))
+      return redirect(mono_path_for("admin_dashboard"))
 
     form_data, errors = validate_sign_up(submitted_data)
 
@@ -384,7 +434,7 @@ def sign_up():
       except OSError:
         form_message = "Your sign-up could not be saved right now. Please try again."
       else:
-        return redirect(url_for("sign_up", success="1"))
+        return redirect(mono_path_for("sign_up", success="1"))
 
   return render_template(
       "sign_up.html",
@@ -397,6 +447,7 @@ def sign_up():
 
 
 @app.route("/admin", methods=["GET", "POST"])
+@app.route("/admin/mono", methods=["GET", "POST"])
 @admin_required
 def admin_dashboard():
   performance_rows = performance_form_rows()
@@ -430,7 +481,7 @@ def admin_dashboard():
       else:
         flash("Please keep at least one performance with a title.", "warning")
 
-      return redirect(url_for("admin_dashboard"))
+      return redirect(mono_path_for("admin_dashboard"))
 
     if action == "photos":
       uploaded_files = request.files.getlist("photo_uploads")
@@ -441,7 +492,7 @@ def admin_dashboard():
       else:
         flash("No valid image files were uploaded.", "warning")
 
-      return redirect(url_for("admin_dashboard"))
+      return redirect(mono_path_for("admin_dashboard"))
 
   return render_template(
       "admin.html",
@@ -455,7 +506,7 @@ def admin_dashboard():
 def download_sign_ups():
   if not SIGN_UPS_FILE.exists():
     flash("There are no sign-ups to download yet.", "warning")
-    return redirect(url_for("admin_dashboard"))
+    return redirect(mono_path_for("admin_dashboard"))
 
   return send_file(
       SIGN_UPS_FILE,
@@ -466,11 +517,12 @@ def download_sign_ups():
 
 
 @app.route("/admin/logout", methods=["POST"])
+@app.route("/admin/logout/mono", methods=["POST"])
 @admin_required
 def admin_logout():
   session.clear()
   flash("Admin signed out.", "success")
-  return redirect(url_for("sign_up"))
+  return redirect(mono_path_for("sign_up"))
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000, debug=True)

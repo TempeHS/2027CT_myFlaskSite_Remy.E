@@ -19,7 +19,7 @@
 
     {% block extra_css %}{% endblock %}
   </head>
-  <body>
+  <body class="{% if mono_mode %}mono-mode{% endif %}">
     {% include 'partials/nav.html' %}
 
     <main>

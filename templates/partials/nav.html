@@ -1,6 +1,6 @@
 <nav class="navbar navbar-expand-lg fixed-top navbar-dark bg-primary shadow-sm" data-bs-theme="dark">
   <div class="container">
-    <a class="navbar-brand fw-semibold" href="{{ url_for('home') }}">Tempe High School Choir</a>
+    <a class="navbar-brand fw-semibold" href="{{ plain_url('home') }}">Tempe High School Choir</a>
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
@@ -9,31 +9,31 @@
     <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
       <ul class="navbar-nav ms-auto gap-lg-2">
         <li class="nav-item">
-          <a class="nav-link rounded-pill px-3 {% if request.endpoint == 'home' %}active fw-semibold bg-light text-primary{% endif %}" href="{{ url_for('home') }}">Home</a>
+          <a class="nav-link rounded-pill px-3 {% if request.endpoint == 'home' %}active fw-semibold bg-light text-primary{% endif %}" href="{{ plain_url('home') }}">Home</a>
         </li>
 
         <li class="nav-item">
-          <a class="nav-link rounded-pill px-3 {% if request.endpoint == 'music' %}active fw-semibold bg-light text-primary{% endif %}" href="{{ url_for('music') }}">Music</a>
+          <a class="nav-link rounded-pill px-3 {% if request.endpoint == 'music' %}active fw-semibold bg-light text-primary{% endif %}" href="{{ plain_url('music') }}">Music</a>
         </li>
 
         <li class="nav-item">
-          <a class="nav-link rounded-pill px-3 {% if request.endpoint == 'faqs' %}active fw-semibold bg-light text-primary{% endif %}" href="{{ url_for('faqs') }}">FAQs</a>
+          <a class="nav-link rounded-pill px-3 {% if request.endpoint == 'faqs' %}active fw-semibold bg-light text-primary{% endif %}" href="{{ plain_url('faqs') }}">FAQs</a>
         </li>
 
         <li class="nav-item">
-          <a class="nav-link rounded-pill px-3 {% if request.endpoint == 'photos' %}active fw-semibold bg-light text-primary{% endif %}" href="{{ url_for('photos') }}">Photos</a>
+          <a class="nav-link rounded-pill px-3 {% if request.endpoint == 'photos' %}active fw-semibold bg-light text-primary{% endif %}" href="{{ plain_url('photos') }}">Photos</a>
         </li>
 
         <li class="nav-item">
-          <a class="nav-link rounded-pill px-3 {% if request.endpoint == 'sign_up' %}active fw-semibold bg-light text-primary{% endif %}" href="{{ url_for('sign_up') }}">Sign Up</a>
+          <a class="nav-link rounded-pill px-3 {% if request.endpoint == 'sign_up' %}active fw-semibold bg-light text-primary{% endif %}" href="{{ plain_url('sign_up') }}">Sign Up</a>
         </li>
 
         {% if session.get('is_admin') %}
         <li class="nav-item">
-          <a class="nav-link rounded-pill px-3 {% if request.endpoint == 'admin_dashboard' %}active fw-semibold bg-light text-primary{% endif %}" href="{{ url_for('admin_dashboard') }}">Admin</a>
+          <a class="nav-link rounded-pill px-3 {% if request.endpoint == 'admin_dashboard' %}active fw-semibold bg-light text-primary{% endif %}" href="{{ plain_url('admin_dashboard') }}">Admin</a>
         </li>
         <li class="nav-item d-flex align-items-center">
-          <form method="post" action="{{ url_for('admin_logout') }}" class="mb-0">
+          <form method="post" action="{{ plain_url('admin_logout') }}" class="mb-0">
             <button type="submit" class="btn btn-outline-light btn-sm rounded-pill px-3">
               Log Out
             </button>

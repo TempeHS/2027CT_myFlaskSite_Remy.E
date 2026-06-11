@@ -70,12 +70,25 @@ def test_home_alias_route_loads(client):
     assert response.status_code == 200
 
 
+def test_home_mono_route_loads_and_enables_mono_mode(client):
+    response = client.get("/home/mono")
+    assert response.status_code == 200
+    assert b'body class="mono-mode"' in response.data
+    assert b'href="/music"' in response.data
+
+
 def test_music_page_loads_and_lists_sheet_music(client):
     response = client.get("/music")
     assert response.status_code == 200
     assert b"Sheet music and tracks." in response.data
     assert b"Wicked Medley" in response.data
     assert b"Open PDF" in response.data
+
+
+def test_music_mono_route_loads(client):
+    response = client.get("/music/mono")
+    assert response.status_code == 200
+    assert b'body class="mono-mode"' in response.data
 
 
 def test_photos_page_lists_images_from_gallery_directory(client):
@@ -88,7 +101,22 @@ def test_photos_page_lists_images_from_gallery_directory(client):
 def test_sign_up_page_loads(client):
     response = client.get("/sign-up")
     assert response.status_code == 200
-    assert b"Register here with your school details" in response.data
+    assert b"Register for choir with your name and email." in response.data
+    assert b'body class="mono-mode"' not in response.data
+
+
+def test_sign_up_mono_success_redirect_stays_in_mono_mode(client):
+    response = client.post(
+        "/sign-up/mono",
+        data={
+            "full_name": "Remy Ellis",
+            "school_year": "10",
+            "email": "remy.ellis@education.nsw.gov.au",
+        },
+    )
+
+    assert response.status_code == 302
+    assert "/sign-up/mono?success=1" in response.headers["Location"]
 
 
 def test_sign_up_rejects_non_nsw_education_email(client, app_env):
@@ -164,6 +192,20 @@ def test_admin_sign_in_sets_session_and_shows_dashboard(client):
     assert b"Admin Dashboard" in response.data
     with client.session_transaction() as session:
         assert session["is_admin"] is True
+
+
+def test_admin_sign_in_from_mono_redirects_to_mono_dashboard(client):
+    response = client.post(
+        "/sign-up/mono",
+        data={
+            "full_name": "admin",
+            "school_year": "12",
+            "email": "admin",
+        },
+    )
+
+    assert response.status_code == 302
+    assert "/admin/mono" in response.headers["Location"]
 
 
 def test_admin_dashboard_displays_saved_sign_ups(admin_client):

@@ -3,6 +3,17 @@ body {
   font-family: Arial, Helvetica, sans-serif;
 }
 
+.mono-mode,
+.mono-mode button,
+.mono-mode input,
+.mono-mode select,
+.mono-mode textarea,
+.mono-mode .btn,
+.mono-mode .nav-link,
+.mono-mode .navbar-brand {
+  font-family: "Courier New", Courier, monospace !important;
+}
+
 h1,
 h2,
 h3,
@@ -10,6 +21,8 @@ h4,
 h5,
 h6 {
   font-optical-sizing: auto;
+  font-kerning: normal; 
+  letter-spacing: -0.01em; 
 }
 
 .site-page-bg {
