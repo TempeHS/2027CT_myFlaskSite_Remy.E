@@ -27,6 +27,14 @@ h6 {
   background: #f3ede4;
 }
 
+.site-footer {
+  background: rgb(13, 110, 253) !important;
+}
+
+.site-footer-line {
+  scrollbar-width: thin;
+}
+
 .hero-image {
   min-height: calc(100vh + 56px);
   margin-top: -56px;

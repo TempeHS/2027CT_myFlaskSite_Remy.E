@@ -26,6 +26,9 @@ VALID_SCHOOL_YEARS = ["7", "8", "9", "10", "11", "12"]
 SIGN_UPS_FILE = Path(app.root_path) / "data" / "sign_ups.csv"
 PERFORMANCES_FILE = Path(app.root_path) / "data" / "upcoming_performances.json"
 IMAGES_DIR = Path(app.static_folder) / "res" / "images"
+LICENSE_FILE = Path(app.root_path) / "LICENSE"
+ATTRIBUTION_FILE = Path(app.root_path) / "copyrightInfo.txt"
+GITHUB_REPO_URL = "https://github.com/TempeHS/2027CT_myFlaskSite_Remy.E"
 NSW_EDU_EMAIL_PATTERN = re.compile(
     r"^[A-Z0-9._%+-]+@education\.nsw\.gov\.au$",
     re.IGNORECASE,
@@ -106,6 +109,34 @@ def load_gallery_images():
       )
 
   return gallery_images
+
+
+def get_last_updated_date():
+  tracked_paths = [
+      Path(app.root_path) / "app.py",
+      Path(app.root_path) / "templates",
+      Path(app.root_path) / "static",
+      LICENSE_FILE,
+      PERFORMANCES_FILE,
+  ]
+  latest_timestamp = 0.0
+
+  for tracked_path in tracked_paths:
+    if not tracked_path.exists():
+      continue
+
+    if tracked_path.is_file():
+      latest_timestamp = max(latest_timestamp, tracked_path.stat().st_mtime)
+      continue
+
+    for file_path in tracked_path.rglob("*"):
+      if file_path.is_file():
+        latest_timestamp = max(latest_timestamp, file_path.stat().st_mtime)
+
+  if latest_timestamp == 0.0:
+    return "Unknown"
+
+  return datetime.fromtimestamp(latest_timestamp).strftime("%d %B %Y")
 
 
 def load_upcoming_performances():
@@ -283,7 +314,32 @@ def admin_required(view_func):
 @app.route("/")
 @app.route("/home")
 def home():
-  return render_template("home.html", performances=load_upcoming_performances())
+  return render_template(
+      "home.html",
+      performances=load_upcoming_performances(),
+      last_updated=get_last_updated_date(),
+      github_repo_url=GITHUB_REPO_URL,
+  )
+
+
+@app.route("/license")
+def license_text():
+  return send_file(
+      LICENSE_FILE,
+      as_attachment=False,
+      download_name="LICENSE.txt",
+      mimetype="text/plain",
+  )
+
+
+@app.route("/attribution")
+def attribution_text():
+  return send_file(
+      ATTRIBUTION_FILE,
+      as_attachment=False,
+      download_name="attribution.txt",
+      mimetype="text/plain",
+  )
 
 @app.route("/music")
 def music():
