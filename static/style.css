@@ -3,6 +3,13 @@ body {
   font-family: Arial, Helvetica, sans-serif;
 }
 
+.site-shell-bg {
+  min-height: calc(100vh - 56px);
+  background:
+    linear-gradient(180deg, #f6f1e8 0%, #ffffff 55%),
+    radial-gradient(circle at top left, rgba(132, 92, 44, 0.12), transparent 40%);
+}
+
 .mono-mode,
 .mono-mode button,
 .mono-mode input,
@@ -27,9 +34,11 @@ h6 {
 
 .site-page-bg {
   min-height: calc(100vh - 56px);
-  background:
-    linear-gradient(180deg, #f6f1e8 0%, #ffffff 55%),
-    radial-gradient(circle at top left, rgba(132, 92, 44, 0.12), transparent 40%);
+  background: transparent;
+}
+
+.site-flash-area {
+  background: transparent;
 }
 
 .site-panel {
@@ -38,6 +47,12 @@ h6 {
 
 .site-frame {
   background: #f3ede4;
+}
+
+.site-alert {
+  background: #fffdf9;
+  color: #1f1a14;
+  border: 1px solid #e2d6c3;
 }
 
 .site-footer {
