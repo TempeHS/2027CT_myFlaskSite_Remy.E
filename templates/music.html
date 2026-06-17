@@ -5,14 +5,25 @@
 {% block content %}
 <section class="site-page-bg py-5">
   <div class="container">
-    <div class="mb-4">
-      <h1 class="display-5 fw-semibold">Music</h1>
-      <p class="lead">Sheet music and tracks.</p>
+    <div class="d-flex flex-column flex-lg-row justify-content-between align-items-lg-center gap-3 mb-4">
+      <div>
+        <h1 class="display-5 fw-semibold">Music</h1>
+        <p class="lead mb-0">Sheet music and tracks.</p>
+      </div>
+      <div class="d-flex flex-column flex-sm-row align-items-sm-center gap-2">
+        <span class="badge text-bg-dark">{{ music_total }} files</span>
+        <input
+          type="search"
+          id="musicSearch"
+          class="form-control"
+          placeholder="Search music"
+        >
+      </div>
     </div>
 
     <div class="row g-4">
       {% for piece in sheet_music %}
-      <div class="col-12 col-lg-6">
+      <div class="col-12 col-lg-6 music-item" data-music-item data-search-text="{{ (piece.title ~ ' ' ~ piece.description)|lower }}">
         <article class="card border-0 shadow-sm site-panel h-100">
           <div class="card-body p-4">
             <div class="mb-3">
@@ -43,6 +54,34 @@
       </div>
       {% endfor %}
     </div>
+    <p id="musicEmptyState" class="text-secondary mt-3 mb-0 d-none">No music matches that search.</p>
   </div>
 </section>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+  const musicSearch = document.getElementById("musicSearch");
+  const musicItems = document.querySelectorAll("[data-music-item]");
+  const musicEmptyState = document.getElementById("musicEmptyState");
+
+  if (musicSearch) {
+    musicSearch.addEventListener("input", (event) => {
+      const query = event.target.value.trim().toLowerCase();
+      let visibleItems = 0;
+
+      musicItems.forEach((item) => {
+        const searchText = item.dataset.searchText || "";
+        const isMatch = !query || searchText.includes(query);
+        item.classList.toggle("d-none", !isMatch);
+
+        if (isMatch) {
+          visibleItems += 1;
+        }
+      });
+
+      musicEmptyState.classList.toggle("d-none", visibleItems !== 0);
+    });
+  }
+</script>
 {% endblock %}

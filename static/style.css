@@ -45,6 +45,12 @@ h6 {
   background: #fffdf9;
 }
 
+.site-stat-value {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: #0d6efd;
+}
+
 .site-frame {
   background: #f3ede4;
 }
@@ -100,6 +106,10 @@ h6 {
 .photo-gallery-image {
   aspect-ratio: 4 / 3;
   object-fit: cover;
+}
+
+.table thead th {
+  white-space: nowrap;
 }
 
 @media (max-width: 768px) {

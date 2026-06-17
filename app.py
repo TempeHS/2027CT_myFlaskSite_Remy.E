@@ -91,6 +91,45 @@ DEFAULT_PERFORMANCES = [
     },
 ]
 
+FAQS = [
+    {
+        "question": "When and where are choir rehearsals?",
+        "answer": "Choir rehearses every week on Wednesdays at 8:00 AM in C6.",
+    },
+    {
+        "question": "What uniform do I need for performances?",
+        "answer": "You will usually want performance blacks or school uniform.",
+    },
+    {
+        "question": "Who teaches choir?",
+        "answer": "Ms Erin Tillet.",
+    },
+    {
+        "question": "What should I bring to a rehearsal or performance?",
+        "answer": "Bring your sheet music, a water bottle, and any other items you need.",
+    },
+    {
+        "question": "What do I do if I am absent from rehearsal?",
+        "answer": "Ideally, contact Ms Tillet, but do not worry if you miss one or two.",
+    },
+    {
+        "question": "How do I access the sheet music and practice materials?",
+        "answer": "They will be handed to you in rehearsals or available here.",
+    },
+    {
+        "question": "How will I know about upcoming performances and schedule changes?",
+        "answer": "Check the home page.",
+    },
+    {
+        "question": "Are parents or carers needed to help at events?",
+        "answer": "No.",
+    },
+    {
+        "question": "Who should I contact if I have a question?",
+        "answer": "Contact Ms Tillet at: erin.tillet1@det.nsw.edu.au",
+    },
+]
+
 
 def load_gallery_images():
   gallery_images = []
@@ -109,6 +148,15 @@ def load_gallery_images():
       )
 
   return gallery_images
+
+
+def build_home_stats():
+  return [
+      {"label": "Upcoming Performances", "value": len(load_upcoming_performances())},
+      {"label": "Sheet Music Files", "value": len(SHEET_MUSIC)},
+      {"label": "Gallery Photos", "value": len(load_gallery_images())},
+      {"label": "FAQ Entries", "value": len(FAQS)},
+  ]
 
 
 def get_last_updated_date():
@@ -260,6 +308,41 @@ def load_sign_ups():
   return list(reversed(rows))
 
 
+def format_sign_up_time(sign_up_row):
+  timestamp = sign_up_row.get("submitted_at", "")
+
+  try:
+    parsed_time = datetime.fromisoformat(timestamp)
+  except ValueError:
+    return timestamp
+
+  return parsed_time.strftime("%d %b %Y, %I:%M %p")
+
+
+def filter_sign_ups(sign_ups, search_query):
+  cleaned_query = search_query.strip().lower()
+
+  if not cleaned_query:
+    return sign_ups
+
+  filtered = []
+
+  for sign_up in sign_ups:
+    searchable_text = " ".join(
+        [
+            sign_up.get("submitted_at", ""),
+            sign_up.get("full_name", ""),
+            sign_up.get("school_year", ""),
+            sign_up.get("email", ""),
+        ]
+    ).lower()
+
+    if cleaned_query in searchable_text:
+      filtered.append(sign_up)
+
+  return filtered
+
+
 def normalize_uploaded_filename(filename):
   safe_name = secure_filename(filename)
   if not safe_name:
@@ -359,9 +442,12 @@ def inject_display_modes():
 @app.route("/home")
 @app.route("/home/mono")
 def home():
+  performances = load_upcoming_performances()
   return render_template(
       "home.html",
-      performances=load_upcoming_performances(),
+      performances=performances,
+      featured_performance=performances[0] if performances else None,
+      site_stats=build_home_stats(),
       last_updated=get_last_updated_date(),
       github_repo_url=GITHUB_REPO_URL,
   )
@@ -389,7 +475,7 @@ def attribution_text():
 @app.route("/music")
 @app.route("/music/mono")
 def music():
-  return render_template("music.html", sheet_music=SHEET_MUSIC)
+  return render_template("music.html", sheet_music=SHEET_MUSIC, music_total=len(SHEET_MUSIC))
 
 @app.route("/snack-roster")
 @app.route("/snack-roster/mono")
@@ -399,12 +485,13 @@ def snack_roster():
 @app.route("/faqs")
 @app.route("/faqs/mono")
 def faqs():
-  return render_template("faqs.html")
+  return render_template("faqs.html", faq_items=FAQS)
 
 @app.route("/photos")
 @app.route("/photos/mono")
 def photos():
-  return render_template("photos.html", gallery_images=load_gallery_images())
+  gallery_images = load_gallery_images()
+  return render_template("photos.html", gallery_images=gallery_images, gallery_total=len(gallery_images))
 
 @app.route("/sign-up", methods=["GET", "POST"])
 @app.route("/sign-up/mono", methods=["GET", "POST"])
@@ -451,7 +538,13 @@ def sign_up():
 @admin_required
 def admin_dashboard():
   performance_rows = performance_form_rows()
+  search_query = request.args.get("search", "")
   sign_ups = load_sign_ups()
+
+  for sign_up in sign_ups:
+    sign_up["submitted_display"] = format_sign_up_time(sign_up)
+
+  filtered_sign_ups = filter_sign_ups(sign_ups, search_query)
 
   if request.method == "POST":
     action = request.form.get("action", "")
@@ -497,7 +590,8 @@ def admin_dashboard():
   return render_template(
       "admin.html",
       performance_rows=performance_rows,
-      sign_ups=sign_ups,
+      sign_ups=filtered_sign_ups,
+      search_query=search_query,
   )
 
 

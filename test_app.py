@@ -83,6 +83,7 @@ def test_music_page_loads_and_lists_sheet_music(client):
     assert b"Sheet music and tracks." in response.data
     assert b"Wicked Medley" in response.data
     assert b"Open PDF" in response.data
+    assert b"Search music" in response.data
 
 
 def test_music_mono_route_loads(client):
@@ -102,6 +103,7 @@ def test_sign_up_page_loads(client):
     response = client.get("/sign-up")
     assert response.status_code == 200
     assert b"Register for choir with your name and email." in response.data
+    assert b"Use your school email so choir sign-ups stay organised" in response.data
     assert b'body class="mono-mode"' not in response.data
 
 
@@ -221,6 +223,21 @@ def test_admin_dashboard_displays_saved_sign_ups(admin_client):
     assert response.status_code == 200
     assert b"Student Example" in response.data
     assert b"Download Sign-Ups CSV" in response.data
+    assert b"Search Sign-Ups" in response.data
+
+
+def test_faq_page_loads_search_box_and_existing_questions(client):
+    response = client.get("/faqs")
+    assert response.status_code == 200
+    assert b"Search FAQs" in response.data
+    assert b"When and where are choir rehearsals?" in response.data
+
+
+def test_snack_roster_page_loads(client):
+    response = client.get("/snack-roster")
+    assert response.status_code == 200
+    assert b"Snack Roster" in response.data
+    assert b"How This Page Can Be Used" in response.data
 
 
 def test_admin_can_update_performances_and_home_reflects_changes(admin_client, app_env):

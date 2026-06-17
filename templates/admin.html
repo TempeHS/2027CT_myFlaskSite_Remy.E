@@ -132,6 +132,23 @@
                   <span class="badge text-bg-dark">{{ sign_ups|length }} total</span>
                 </div>
 
+                <form method="get" class="row g-2 mb-3">
+                  <div class="col-12 col-md-8">
+                    <input
+                      type="search"
+                      name="search"
+                      class="form-control"
+                      value="{{ search_query }}"
+                      placeholder="Search by name, year, email, or date"
+                    >
+                  </div>
+                  <div class="col-12 col-md-4 d-grid">
+                    <button type="submit" class="btn btn-outline-dark">
+                      Search Sign-Ups
+                    </button>
+                  </div>
+                </form>
+
                 {% if sign_ups %}
                 <div class="table-responsive">
                   <table class="table align-middle mb-0">
@@ -146,7 +163,7 @@
                     <tbody>
                       {% for sign_up in sign_ups %}
                       <tr>
-                        <td class="small text-secondary">{{ sign_up.submitted_at }}</td>
+                        <td class="small text-secondary">{{ sign_up.submitted_display }}</td>
                         <td>{{ sign_up.full_name }}</td>
                         <td>{{ sign_up.school_year }}</td>
                         <td class="small">{{ sign_up.email }}</td>
@@ -156,7 +173,7 @@
                   </table>
                 </div>
                 {% else %}
-                <p class="text-secondary mb-0">No sign-ups have been saved yet.</p>
+                <p class="text-secondary mb-0">No sign-ups match your search yet.</p>
                 {% endif %}
               </div>
             </article>

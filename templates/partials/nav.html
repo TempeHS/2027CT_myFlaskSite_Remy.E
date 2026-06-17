@@ -17,6 +17,10 @@
         </li>
 
         <li class="nav-item">
+          <a class="nav-link rounded-pill px-3 {% if request.endpoint == 'snack_roster' %}active fw-semibold bg-light text-primary{% endif %}" href="{{ plain_url('snack_roster') }}">Snack Roster</a>
+        </li>
+
+        <li class="nav-item">
           <a class="nav-link rounded-pill px-3 {% if request.endpoint == 'faqs' %}active fw-semibold bg-light text-primary{% endif %}" href="{{ plain_url('faqs') }}">FAQs</a>
         </li>
 
