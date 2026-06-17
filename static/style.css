@@ -1,13 +1,29 @@
+:root {
+  --site-body-text: #1f1a14;
+  --site-shell-top: #f6f1e8;
+  --site-shell-bottom: #ffffff;
+  --site-shell-glow: rgba(132, 92, 44, 0.12);
+  --site-panel-bg: #fffdf9;
+  --site-frame-bg: #f3ede4;
+  --site-alert-bg: #fffdf9;
+  --site-alert-border: #e2d6c3;
+  --site-footer-bg: rgb(13, 110, 253);
+  --site-overlay-bg: rgba(255, 253, 249, 0.78);
+  --site-overlay-text: #1f1a14;
+}
+
 body {
   padding-top: 56px;
   font-family: Arial, Helvetica, sans-serif;
+  color: var(--site-body-text);
+  background-color: var(--site-shell-bottom);
 }
 
 .site-shell-bg {
   min-height: calc(100vh - 56px);
   background:
-    linear-gradient(180deg, #f6f1e8 0%, #ffffff 55%),
-    radial-gradient(circle at top left, rgba(132, 92, 44, 0.12), transparent 40%);
+    linear-gradient(180deg, var(--site-shell-top) 0%, var(--site-shell-bottom) 55%),
+    radial-gradient(circle at top left, var(--site-shell-glow), transparent 40%);
 }
 
 .mono-mode,
@@ -18,7 +34,9 @@ body {
 .mono-mode .btn,
 .mono-mode .nav-link,
 .mono-mode .navbar-brand {
-  font-family: "Courier New", Courier, monospace !important;
+  font-family: "OpenDyslexic", "OpenDyslexicAlta", Arial, Helvetica, sans-serif !important;
+  letter-spacing: 0.02em;
+  line-height: 1.6;
 }
 
 h1,
@@ -42,7 +60,8 @@ h6 {
 }
 
 .site-panel {
-  background: #fffdf9;
+  background: var(--site-panel-bg);
+  color: var(--site-body-text);
 }
 
 .site-stat-value {
@@ -52,17 +71,17 @@ h6 {
 }
 
 .site-frame {
-  background: #f3ede4;
+  background: var(--site-frame-bg);
 }
 
 .site-alert {
-  background: #fffdf9;
-  color: #1f1a14;
-  border: 1px solid #e2d6c3;
+  background: var(--site-alert-bg);
+  color: var(--site-body-text);
+  border: 1px solid var(--site-alert-border);
 }
 
 .site-footer {
-  background: rgb(13, 110, 253) !important;
+  background: var(--site-footer-bg) !important;
 }
 
 .site-footer-line {
@@ -78,8 +97,8 @@ h6 {
 .hero-overlay {
   max-width: 90%;
   padding: 1.5rem 2rem;
-  color: #1f1a14;
-  background: rgba(255, 253, 249, 0.78);
+  color: var(--site-overlay-text);
+  background: var(--site-overlay-bg);
 }
 
 .home-carousel {
@@ -110,6 +129,127 @@ h6 {
 
 .table thead th {
   white-space: nowrap;
+}
+
+.skip-link {
+  position: absolute;
+  left: 1rem;
+  top: -3rem;
+  z-index: 1100;
+  padding: 0.75rem 1rem;
+  border-radius: 0.5rem;
+  background: #0d6efd;
+  color: #fff;
+  text-decoration: none;
+}
+
+.skip-link:focus {
+  top: 1rem;
+}
+
+.accessibility-menu {
+  min-width: 18rem;
+}
+
+.large-text {
+  font-size: 1.08rem;
+}
+
+.large-text .lead {
+  font-size: 1.3rem;
+}
+
+.dark-mode {
+  --site-body-text: #e7edf5;
+  --site-shell-top: #13202c;
+  --site-shell-bottom: #0d1720;
+  --site-shell-glow: rgba(74, 132, 188, 0.18);
+  --site-panel-bg: #162230;
+  --site-frame-bg: #243445;
+  --site-alert-bg: #172534;
+  --site-alert-border: #2f455d;
+  --site-footer-bg: #08131d;
+  --site-overlay-bg: rgba(13, 23, 32, 0.82);
+  --site-overlay-text: #f5f8fb;
+}
+
+.dark-mode .text-secondary {
+  color: #bcc9d8 !important;
+}
+
+.dark-mode .navbar {
+  background-color: #0b223d !important;
+}
+
+.dark-mode .card,
+.dark-mode .site-panel,
+.dark-mode .table,
+.dark-mode .accordion-item,
+.dark-mode .dropdown-menu {
+  color: var(--site-body-text);
+}
+
+.dark-mode .table {
+  --bs-table-bg: transparent;
+  --bs-table-color: var(--site-body-text);
+  --bs-table-border-color: #33475c;
+}
+
+.dark-mode .form-control,
+.dark-mode .form-select,
+.dark-mode textarea {
+  background-color: #0f1c28;
+  color: #eef4fb;
+  border-color: #455d75;
+}
+
+.dark-mode .form-control::placeholder {
+  color: #a9bacd;
+}
+
+.dark-mode .form-control:focus,
+.dark-mode .form-select:focus,
+.dark-mode textarea:focus {
+  background-color: #102130;
+  color: #eef4fb;
+  border-color: #7cb2ff;
+  box-shadow: 0 0 0 0.25rem rgba(124, 178, 255, 0.2);
+}
+
+.dark-mode .btn-outline-dark,
+.dark-mode .btn-outline-secondary {
+  color: #e7edf5;
+  border-color: #8ba4bf;
+}
+
+.dark-mode .btn-outline-dark:hover,
+.dark-mode .btn-outline-secondary:hover {
+  background-color: #dce6f2;
+  color: #102130;
+}
+
+.dark-mode .accordion-button {
+  background-color: #162230;
+  color: var(--site-body-text);
+}
+
+.dark-mode .accordion-button:not(.collapsed) {
+  background-color: #1b2a3b;
+  color: #ffffff;
+}
+
+.dark-mode .accordion-body {
+  background-color: #162230;
+  color: var(--site-body-text);
+}
+
+.dark-mode .dropdown-menu {
+  background-color: #162230;
+  border-color: #2f455d;
+}
+
+.dark-mode .border-bottom {
+  border-color: #33475c !important;
 }
 
 @media (max-width: 768px) {

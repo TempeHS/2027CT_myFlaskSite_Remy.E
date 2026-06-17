@@ -73,8 +73,11 @@ def test_home_alias_route_loads(client):
 def test_home_mono_route_loads_and_enables_mono_mode(client):
     response = client.get("/home/mono")
     assert response.status_code == 200
-    assert b'body class="mono-mode"' in response.data
+    assert b"mono-mode" in response.data
     assert b'href="/music"' in response.data
+
+    later_response = client.get("/music")
+    assert b"mono-mode" in later_response.data
 
 
 def test_music_page_loads_and_lists_sheet_music(client):
@@ -89,7 +92,7 @@ def test_music_page_loads_and_lists_sheet_music(client):
 def test_music_mono_route_loads(client):
     response = client.get("/music/mono")
     assert response.status_code == 200
-    assert b'body class="mono-mode"' in response.data
+    assert b"mono-mode" in response.data
 
 
 def test_photos_page_lists_images_from_gallery_directory(client):
@@ -104,7 +107,7 @@ def test_sign_up_page_loads(client):
     assert response.status_code == 200
     assert b"Register for choir with your name and email." in response.data
     assert b"Use your school email so choir sign-ups stay organised" in response.data
-    assert b'body class="mono-mode"' not in response.data
+    assert b"mono-mode" not in response.data
 
 
 def test_sign_up_mono_success_redirect_stays_in_mono_mode(client):
@@ -345,3 +348,45 @@ def test_license_and_attribution_routes_load(client):
 def test_unknown_route_returns_404(client):
     response = client.get("/does-not-exist")
     assert response.status_code == 404
+
+
+def test_accessibility_preferences_can_be_saved_and_persist_across_pages(client):
+    response = client.post(
+        "/accessibility",
+        data={
+            "next_url": "/home",
+            "dyslexic_font": "on",
+            "dark_mode": "on",
+            "large_text": "on",
+        },
+    )
+
+    assert response.status_code == 302
+    assert response.headers["Location"].endswith("/home")
+
+    home_response = client.get("/home")
+    assert b"mono-mode" in home_response.data
+    assert b"dark-mode" in home_response.data
+    assert b"large-text" in home_response.data
+
+    faq_response = client.get("/faqs")
+    assert b"dark-mode" in faq_response.data
+    assert b"OpenDyslexic font" in faq_response.data
+
+
+def test_accessibility_reset_strips_mono_path_and_clears_preferences(client):
+    client.get("/home/mono")
+
+    response = client.post(
+        "/accessibility/mono",
+        data={
+            "next_url": "/home/mono",
+            "reset": "1",
+        },
+    )
+
+    assert response.status_code == 302
+    assert response.headers["Location"].endswith("/home")
+
+    home_response = client.get("/home")
+    assert b"mono-mode" not in home_response.data

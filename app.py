@@ -21,6 +21,11 @@ from werkzeug.utils import secure_filename
 app = Flask(__name__)
 app.secret_key = os.environ.get("FLASK_SECRET_KEY", "tempe-choir-dev-secret")
 
+ACCESSIBILITY_DEFAULTS = {
+    "dyslexic_font": False,
+    "dark_mode": False,
+    "large_text": False,
+}
 IMAGE_EXTENSIONS = {".jpg", ".jpeg", ".png", ".webp", ".gif"}
 VALID_SCHOOL_YEARS = ["7", "8", "9", "10", "11", "12"]
 SIGN_UPS_FILE = Path(app.root_path) / "data" / "sign_ups.csv"
@@ -343,6 +348,38 @@ def filter_sign_ups(sign_ups, search_query):
   return filtered
 
 
+def request_uses_mono_path(path=None):
+  target_path = path or request.path
+  return target_path == "/mono" or target_path.endswith("/mono")
+
+
+def get_accessibility_preferences():
+  saved_preferences = session.get("accessibility_preferences", {})
+  preferences = ACCESSIBILITY_DEFAULTS.copy()
+
+  for key, default_value in ACCESSIBILITY_DEFAULTS.items():
+    preferences[key] = bool(saved_preferences.get(key, default_value))
+
+  return preferences
+
+
+def save_accessibility_preferences(preferences):
+  session["accessibility_preferences"] = preferences
+  session.modified = True
+
+
+def normalize_next_url(next_url):
+  if not next_url or not next_url.startswith("/"):
+    return "/"
+
+  if not get_accessibility_preferences()["dyslexic_font"] and request_uses_mono_path(next_url):
+    if next_url == "/mono":
+      return "/"
+    return next_url[:-5]
+
+  return next_url
+
+
 def normalize_uploaded_filename(filename):
   safe_name = secure_filename(filename)
   if not safe_name:
@@ -396,7 +433,7 @@ def admin_required(view_func):
 
 
 def mono_mode_enabled():
-  return request.path == "/mono" or request.path.endswith("/mono")
+  return get_accessibility_preferences()["dyslexic_font"] or request_uses_mono_path()
 
 
 def standard_path_for(endpoint, **values):
@@ -429,13 +466,45 @@ def mono_path_for(endpoint, **values):
   return f"{base_path.rstrip('/')}/mono"
 
 
+@app.before_request
+def sync_mono_route_preference():
+  if not request_uses_mono_path():
+    return
+
+  preferences = get_accessibility_preferences()
+  if preferences["dyslexic_font"]:
+    return
+
+  preferences["dyslexic_font"] = True
+  save_accessibility_preferences(preferences)
+
+
 @app.context_processor
 def inject_display_modes():
   return {
       "mono_mode": mono_mode_enabled(),
       "mono_url": mono_path_for,
       "plain_url": standard_path_for,
+      "accessibility_preferences": get_accessibility_preferences(),
   }
+
+
+@app.route("/accessibility", methods=["POST"])
+@app.route("/accessibility/mono", methods=["POST"])
+def update_accessibility():
+  next_url = normalize_next_url(request.form.get("next_url", request.path))
+
+  if request.form.get("reset") == "1":
+    save_accessibility_preferences(ACCESSIBILITY_DEFAULTS.copy())
+    return redirect(normalize_next_url(next_url))
+
+  preferences = {
+      "dyslexic_font": request.form.get("dyslexic_font") == "on",
+      "dark_mode": request.form.get("dark_mode") == "on",
+      "large_text": request.form.get("large_text") == "on",
+  }
+  save_accessibility_preferences(preferences)
+  return redirect(normalize_next_url(next_url))
 
 @app.route("/")
 @app.route("/mono")
