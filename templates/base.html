@@ -12,7 +12,7 @@
     />
     <link
       rel="stylesheet"
-      href="https://cdn.jsdelivr.net/npm/@fontsource/open-dyslexic@5.2.6/index.css"
+      href="https://cdn.jsdelivr.net/npm/@fontsource/opendyslexic/index.css"
     />
 
     <!-- Your custom CSS -->
@@ -47,6 +47,90 @@
       <!-- Page content goes here -->
       {% endblock %}
     </main>
+
+    <footer class="site-footer border-top py-4 mt-auto">
+      <div class="container">
+        <div class="row g-4 align-items-start">
+          <div class="col-12 col-lg-7">
+            <p class="site-footer-line mb-2 small text-white d-flex flex-wrap gap-3">
+              <span>&copy; Remy Ellis {{ current_year }}</span>
+              <span>Last Updated: {{ last_updated }}</span>
+              <a href="{{ url_for('license_text') }}" class="link-light text-decoration-none">LICENSE</a>
+              <a href="{{ github_repo_url }}" target="_blank" rel="noopener noreferrer" class="link-light text-decoration-none">GitHub</a>
+              <a href="{{ url_for('attribution_text') }}" class="link-light text-decoration-none">Attribution</a>
+            </p>
+            <p class="small text-white-50 mb-0">Accessibility settings stay on as you move between pages.</p>
+          </div>
+
+          <div class="col-12 col-lg-5">
+            <div class="site-footer-accessibility rounded-4 p-3">
+              <button
+                class="btn btn-outline-light btn-sm d-flex align-items-center justify-content-between w-100 site-footer-accessibility-toggle"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#footerAccessibilityPanel"
+                aria-expanded="false"
+                aria-controls="footerAccessibilityPanel"
+              >
+                <span>Accessibility</span>
+                <span class="small text-white-50">Expand</span>
+              </button>
+
+              <div class="collapse mt-3" id="footerAccessibilityPanel">
+                <form method="post" action="{{ mono_url('update_accessibility') }}">
+                  <input type="hidden" name="next_url" value="{{ request.path }}">
+
+                  <p class="small text-white-50 mb-3">Reading and display settings stay on as you move between pages.</p>
+
+                  <div class="d-grid gap-2">
+                    <div class="form-check form-switch text-white mb-0">
+                      <input
+                        class="form-check-input"
+                        type="checkbox"
+                        role="switch"
+                        id="footerDyslexicFont"
+                        name="dyslexic_font"
+                        {% if accessibility_preferences.dyslexic_font %}checked{% endif %}
+                      >
+                      <label class="form-check-label" for="footerDyslexicFont">OpenDyslexic font</label>
+                    </div>
+
+                    <div class="form-check form-switch text-white mb-0">
+                      <input
+                        class="form-check-input"
+                        type="checkbox"
+                        role="switch"
+                        id="footerDarkMode"
+                        name="dark_mode"
+                        {% if accessibility_preferences.dark_mode %}checked{% endif %}
+                      >
+                      <label class="form-check-label" for="footerDarkMode">Dark mode</label>
+                    </div>
+
+                    <div class="form-check form-switch text-white mb-0">
+                      <input
+                        class="form-check-input"
+                        type="checkbox"
+                        role="switch"
+                        id="footerLargeText"
+                        name="large_text"
+                        {% if accessibility_preferences.large_text %}checked{% endif %}
+                      >
+                      <label class="form-check-label" for="footerLargeText">Larger text</label>
+                    </div>
+                  </div>
+
+                  <div class="d-flex flex-wrap gap-2 mt-3">
+                    <button type="submit" class="btn btn-light btn-sm">Save Settings</button>
+                    <button type="submit" class="btn btn-outline-light btn-sm" name="reset" value="1">Reset</button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </footer>
 
     <!-- Bootstrap JavaScript from CDN -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>

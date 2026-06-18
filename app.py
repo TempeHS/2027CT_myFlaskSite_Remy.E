@@ -486,6 +486,9 @@ def inject_display_modes():
       "mono_url": mono_path_for,
       "plain_url": standard_path_for,
       "accessibility_preferences": get_accessibility_preferences(),
+      "github_repo_url": GITHUB_REPO_URL,
+      "last_updated": get_last_updated_date(),
+      "current_year": datetime.now().year,
   }
 
 

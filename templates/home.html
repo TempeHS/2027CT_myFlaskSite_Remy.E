@@ -15,6 +15,19 @@
         <p class="lead">Upcoming performances and choir updates.</p>
       </div>
 
+      <div class="row g-3 mb-4">
+        {% for stat in site_stats %}
+        <div class="col-6 col-lg-3">
+          <div class="card border-0 shadow-sm site-panel h-100">
+            <div class="card-body p-3 text-center">
+              <p class="site-stat-value mb-1">{{ stat.value }}</p>
+              <p class="small text-secondary mb-0">{{ stat.label }}</p>
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+
       <div class="row g-4 align-items-stretch">
         <div class="col-12 col-lg-7">
           <div class="card border-0 shadow-sm site-panel h-100">
@@ -127,31 +140,6 @@
         </div>
       </div>
     </div>
-          <div class="row g-3 mb-4">
-        {% for stat in site_stats %}
-        <div class="col-6 col-lg-3">
-          <div class="card border-0 shadow-sm site-panel h-100">
-            <div class="card-body p-3 text-center">
-              <p class="site-stat-value mb-1">{{ stat.value }}</p>
-              <p class="small text-secondary mb-0">{{ stat.label }}</p>
-            </div>
-          </div>
-        </div>
-        {% endfor %}
-      </div>
   </section>
-
-  
-  <footer class="site-footer border-top py-3 mt-4">
-    <div class="container">
-      <p class="site-footer-line mb-0 small text-white d-flex flex-nowrap gap-4 overflow-auto">
-        <span>&copy; Remy Ellis 2026</span>
-        <span>Last Updated: {{ last_updated }}</span>
-        <a href="{{ url_for('license_text') }}" class="link-light text-decoration-none">LICENSE</a>
-        <a href="{{ github_repo_url }}" target="_blank" rel="noopener noreferrer" class="link-light text-decoration-none">GitHub</a>
-        <a href="{{ url_for('attribution_text') }}" class="link-light text-decoration-none">Attribution</a>
-      </p>
-    </div>
-  </footer>
 </section>
 {% endblock %}

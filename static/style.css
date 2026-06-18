@@ -17,9 +17,13 @@ body {
   font-family: Arial, Helvetica, sans-serif;
   color: var(--site-body-text);
   background-color: var(--site-shell-bottom);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
 }
 
 .site-shell-bg {
+  flex: 1 0 auto;
   min-height: calc(100vh - 56px);
   background:
     linear-gradient(180deg, var(--site-shell-top) 0%, var(--site-shell-bottom) 55%),
@@ -33,8 +37,14 @@ body {
 .mono-mode textarea,
 .mono-mode .btn,
 .mono-mode .nav-link,
-.mono-mode .navbar-brand {
-  font-family: "OpenDyslexic", "OpenDyslexicAlta", Arial, Helvetica, sans-serif !important;
+.mono-mode .navbar-brand,
+.mono-mode h1,
+.mono-mode h2,
+.mono-mode h3,
+.mono-mode h4,
+.mono-mode h5,
+.mono-mode h6 {
+  font-family: "OpenDyslexic", "OpenDyslexicAlta", "Open Dyslexic", Arial, Helvetica, sans-serif !important;
   letter-spacing: 0.02em;
   line-height: 1.6;
 }
@@ -88,6 +98,21 @@ h6 {
   scrollbar-width: thin;
 }
 
+.site-footer-accessibility {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+}
+
+.site-footer-accessibility-toggle {
+  border-width: 1px;
+}
+
+.site-footer-accessibility .collapse.show,
+.site-footer-accessibility .collapsing {
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
+  padding-top: 1rem;
+}
+
 .hero-image {
   min-height: calc(100vh + 56px);
   margin-top: -56px;
@@ -127,6 +152,11 @@ h6 {
   object-fit: cover;
 }
 
+.performance-editor-card {
+  background: var(--site-frame-bg);
+  color: var(--site-body-text);
+}
+
 .table thead th {
   white-space: nowrap;
 }
@@ -145,10 +175,6 @@ h6 {
 
 .skip-link:focus {
   top: 1rem;
-}
-
-.accessibility-menu {
-  min-width: 18rem;
 }
 
 .large-text {
@@ -250,6 +276,31 @@ h6 {
 
 .dark-mode .border-bottom {
   border-color: #33475c !important;
+}
+
+.dark-mode .site-footer-accessibility {
+  background: rgba(255, 255, 255, 0.04);
+  border-color: rgba(255, 255, 255, 0.12);
+}
+
+.dark-mode .site-footer-accessibility-toggle {
+  color: #eef4fb;
+  border-color: rgba(255, 255, 255, 0.35);
+}
+
+.dark-mode .site-footer-accessibility-toggle:hover,
+.dark-mode .site-footer-accessibility-toggle:focus {
+  color: #102130;
+  background-color: #eef4fb;
+  border-color: #eef4fb;
+}
+
+.dark-mode .performance-editor-card {
+  border-color: #33475c !important;
+}
+
+.dark-mode .performance-editor-card .form-label {
+  color: var(--site-body-text);
 }
 
 @media (max-width: 768px) {

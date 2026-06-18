@@ -63,6 +63,8 @@ def test_home_page_contains_main_content_and_footer_links(client):
     assert b"LICENSE" in response.data
     assert b"GitHub" in response.data
     assert b"Attribution" in response.data
+    assert b"Accessibility" in response.data
+    assert b"footerAccessibilityPanel" in response.data
 
 
 def test_home_alias_route_loads(client):
@@ -108,6 +110,7 @@ def test_sign_up_page_loads(client):
     assert b"Register for choir with your name and email." in response.data
     assert b"Use your school email so choir sign-ups stay organised" in response.data
     assert b"mono-mode" not in response.data
+    assert b"OpenDyslexic font" in response.data
 
 
 def test_sign_up_mono_success_redirect_stays_in_mono_mode(client):
@@ -227,6 +230,7 @@ def test_admin_dashboard_displays_saved_sign_ups(admin_client):
     assert b"Student Example" in response.data
     assert b"Download Sign-Ups CSV" in response.data
     assert b"Search Sign-Ups" in response.data
+    assert b"performance-editor-card" in response.data
 
 
 def test_faq_page_loads_search_box_and_existing_questions(client):
@@ -372,6 +376,11 @@ def test_accessibility_preferences_can_be_saved_and_persist_across_pages(client)
     faq_response = client.get("/faqs")
     assert b"dark-mode" in faq_response.data
     assert b"OpenDyslexic font" in faq_response.data
+
+
+def test_base_template_uses_working_opendyslexic_package_url(client):
+    response = client.get("/")
+    assert b"@fontsource/opendyslexic/index.css" in response.data
 
 
 def test_accessibility_reset_strips_mono_path_and_clears_preferences(client):
