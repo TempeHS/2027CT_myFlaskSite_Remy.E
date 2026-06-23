@@ -10,6 +10,7 @@ import app as app_module
 def app_env(tmp_path, monkeypatch):
     sign_ups_file = tmp_path / "data" / "sign_ups.csv"
     performances_file = tmp_path / "data" / "upcoming_performances.json"
+    snack_roster_file = tmp_path / "data" / "snack_roster.json"
     images_dir = tmp_path / "images"
     images_dir.mkdir()
 
@@ -18,6 +19,7 @@ def app_env(tmp_path, monkeypatch):
 
     monkeypatch.setattr(app_module, "SIGN_UPS_FILE", sign_ups_file)
     monkeypatch.setattr(app_module, "PERFORMANCES_FILE", performances_file)
+    monkeypatch.setattr(app_module, "SNACK_ROSTER_FILE", snack_roster_file)
     monkeypatch.setattr(app_module, "IMAGES_DIR", images_dir)
 
     app_module.app.config.update(TESTING=True)
@@ -26,6 +28,7 @@ def app_env(tmp_path, monkeypatch):
         "app": app_module.app,
         "sign_ups_file": sign_ups_file,
         "performances_file": performances_file,
+        "snack_roster_file": snack_roster_file,
         "images_dir": images_dir,
     }
 
@@ -245,7 +248,60 @@ def test_snack_roster_page_loads(client):
     response = client.get("/snack-roster")
     assert response.status_code == 200
     assert b"Snack Roster" in response.data
-    assert b"How This Page Can Be Used" in response.data
+    assert b"Roster Notes" in response.data
+    assert b"24/06/26" in response.data
+    assert b"Kenyon" in response.data
+    assert b"Muffins" in response.data
+
+
+def test_admin_can_update_snack_roster_and_page_reflects_changes(admin_client, app_env):
+    response = admin_client.post(
+        "/admin",
+        data={
+            "action": "snack_roster",
+            "roster_date": [
+                "22/07/26",
+                "",
+                "",
+                "",
+                "",
+                "",
+            ],
+            "roster_event": [
+                "Rehearsal",
+                "",
+                "",
+                "",
+                "",
+                "",
+            ],
+            "roster_family": [
+                "Taylor",
+                "",
+                "",
+                "",
+                "",
+                "",
+            ],
+            "roster_snack": [
+                "Biscuits",
+                "",
+                "",
+                "",
+                "",
+                "",
+            ],
+        },
+    )
+
+    assert response.status_code == 302
+    saved_roster = json.loads(app_env["snack_roster_file"].read_text(encoding="utf-8"))
+    assert saved_roster[0]["family"] == "Taylor"
+
+    roster_response = admin_client.get("/snack-roster")
+    assert b"22/07/26" in roster_response.data
+    assert b"Taylor" in roster_response.data
+    assert b"Biscuits" in roster_response.data
 
 
 def test_admin_can_update_performances_and_home_reflects_changes(admin_client, app_env):

@@ -7,7 +7,7 @@
   <div class="container">
     <div class="mb-4">
       <h1 class="display-5 fw-semibold">Snack Roster</h1>
-      <p class="lead">Snacks, roster details, and event-day reminders will live here.</p>
+      <p class="lead">Snacks, roster details, and event-day reminders.</p>
     </div>
 
     <div class="row g-4">
@@ -19,27 +19,21 @@
               <table class="table align-middle mb-0">
                 <thead>
                   <tr>
+                    <th scope="col">Date</th>
                     <th scope="col">Event</th>
-                    <th scope="col">Family / Group</th>
-                    <th scope="col">Items</th>
+                    <th scope="col">Family</th>
+                    <th scope="col">Snack</th>
                   </tr>
                 </thead>
                 <tbody>
+                  {% for roster_item in snack_roster_items %}
                   <tr>
-                    <td class="text-secondary"> </td>
-                    <td class="text-secondary"> </td>
-                    <td class="text-secondary"> </td>
+                    <td>{{ roster_item.date }}</td>
+                    <td class="fw-semibold">{{ roster_item.event }}</td>
+                    <td>{{ roster_item.family }}</td>
+                    <td>{{ roster_item.snack }}</td>
                   </tr>
-                  <tr>
-                    <td class="text-secondary"> </td>
-                    <td class="text-secondary"> </td>
-                    <td class="text-secondary"> </td>
-                  </tr>
-                  <tr>
-                    <td class="text-secondary"> </td>
-                    <td class="text-secondary"> </td>
-                    <td class="text-secondary"> </td>
-                  </tr>
+                  {% endfor %}
                 </tbody>
               </table>
             </div>
@@ -50,11 +44,11 @@
       <div class="col-12 col-lg-5">
         <article class="card border-0 shadow-sm site-panel h-100">
           <div class="card-body p-4">
-            <h2 class="h4 mb-3">How This Page Can Be Used</h2>
+            <h2 class="h4 mb-3">Roster Notes</h2>
             <ul class="mb-0 ps-3">
-              <li>Add event names when food is needed.</li>
-              <li>List families, year groups, or sections helping out.</li>
-              <li>Record what snacks or drinks each group is bringing.</li>
+              {% for note in snack_roster_notes %}
+              <li>{{ note }}</li>
+              {% endfor %}
             </ul>
           </div>
         </article>

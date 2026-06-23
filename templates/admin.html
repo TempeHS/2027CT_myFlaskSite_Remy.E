@@ -20,79 +20,151 @@
 
     <div class="row g-4">
       <div class="col-12 col-xl-7">
-        <article class="card border-0 shadow-sm site-panel h-100">
-          <div class="card-body p-4">
-            <h2 class="h3 mb-3">Upcoming Performances</h2>
-            <form method="post" class="row g-3">
-              <input type="hidden" name="action" value="performances">
+        <div class="row g-4">
+          <div class="col-12">
+            <article class="card border-0 shadow-sm site-panel h-100">
+              <div class="card-body p-4">
+                <h2 class="h3 mb-3">Upcoming Performances</h2>
+                <form method="post" class="row g-3">
+                  <input type="hidden" name="action" value="performances">
 
-              {% for performance in performance_rows %}
-              <div class="col-12">
-                <div class="border rounded-4 p-3 performance-editor-card">
-                  <div class="row g-3">
-                    <div class="col-12">
-                      <label class="form-label fw-semibold">Title</label>
-                      <input
-                        type="text"
-                        name="performance_title"
-                        class="form-control"
-                        value="{{ performance.title }}"
-                      >
-                    </div>
-                    <div class="col-12">
-                      <label class="form-label fw-semibold">Where</label>
-                      <input
-                        type="text"
-                        name="performance_where"
-                        class="form-control"
-                        value="{{ performance.where }}"
-                      >
-                    </div>
-                    <div class="col-12 col-md-6">
-                      <label class="form-label fw-semibold">Time</label>
-                      <input
-                        type="text"
-                        name="performance_time"
-                        class="form-control"
-                        value="{{ performance.time }}"
-                      >
-                    </div>
-                    <div class="col-12 col-md-6">
-                      <label class="form-label fw-semibold">Date</label>
-                      <input
-                        type="text"
-                        name="performance_date"
-                        class="form-control"
-                        value="{{ performance.date }}"
-                      >
-                    </div>
-                    <div class="col-12">
-                      <label class="form-label fw-semibold">Notes</label>
-                      <textarea
-                        name="performance_notes"
-                        class="form-control"
-                        rows="2"
-                      >{{ performance.notes }}</textarea>
+                  {% for performance in performance_rows %}
+                  <div class="col-12">
+                    <div class="border rounded-4 p-3 performance-editor-card">
+                      <div class="row g-3">
+                        <div class="col-12">
+                          <label class="form-label fw-semibold">Title</label>
+                          <input
+                            type="text"
+                            name="performance_title"
+                            class="form-control"
+                            value="{{ performance.title }}"
+                          >
+                        </div>
+                        <div class="col-12">
+                          <label class="form-label fw-semibold">Where</label>
+                          <input
+                            type="text"
+                            name="performance_where"
+                            class="form-control"
+                            value="{{ performance.where }}"
+                          >
+                        </div>
+                        <div class="col-12 col-md-6">
+                          <label class="form-label fw-semibold">Time</label>
+                          <input
+                            type="text"
+                            name="performance_time"
+                            class="form-control"
+                            value="{{ performance.time }}"
+                          >
+                        </div>
+                        <div class="col-12 col-md-6">
+                          <label class="form-label fw-semibold">Date</label>
+                          <input
+                            type="text"
+                            name="performance_date"
+                            class="form-control"
+                            value="{{ performance.date }}"
+                          >
+                        </div>
+                        <div class="col-12">
+                          <label class="form-label fw-semibold">Notes</label>
+                          <textarea
+                            name="performance_notes"
+                            class="form-control"
+                            rows="2"
+                          >{{ performance.notes }}</textarea>
+                        </div>
+                      </div>
                     </div>
                   </div>
-                </div>
-              </div>
-              {% endfor %}
+                  {% endfor %}
 
-              <div class="col-12">
-                <p class="text-secondary small mb-0">
-                  Leave a title blank to remove that performance slot.
-                </p>
-              </div>
+                  <div class="col-12">
+                    <p class="text-secondary small mb-0">
+                      Leave a title blank to remove that performance slot.
+                    </p>
+                  </div>
 
-              <div class="col-12">
-                <button type="submit" class="btn btn-primary">
-                  Save Performances
-                </button>
+                  <div class="col-12">
+                    <button type="submit" class="btn btn-primary">
+                      Save Performances
+                    </button>
+                  </div>
+                </form>
               </div>
-            </form>
+            </article>
           </div>
-        </article>
+
+          <div class="col-12">
+            <article class="card border-0 shadow-sm site-panel h-100">
+              <div class="card-body p-4">
+                <h2 class="h3 mb-3">Snack Roster</h2>
+                <form method="post" class="row g-3">
+                  <input type="hidden" name="action" value="snack_roster">
+
+                  {% for roster_item in snack_roster_rows %}
+                  <div class="col-12">
+                    <div class="border rounded-4 p-3 performance-editor-card">
+                      <div class="row g-3">
+                        <div class="col-12 col-md-3">
+                          <label class="form-label fw-semibold">Date</label>
+                          <input
+                            type="text"
+                            name="roster_date"
+                            class="form-control"
+                            value="{{ roster_item.date }}"
+                          >
+                        </div>
+                        <div class="col-12 col-md-3">
+                          <label class="form-label fw-semibold">Event</label>
+                          <input
+                            type="text"
+                            name="roster_event"
+                            class="form-control"
+                            value="{{ roster_item.event }}"
+                          >
+                        </div>
+                        <div class="col-12 col-md-3">
+                          <label class="form-label fw-semibold">Family</label>
+                          <input
+                            type="text"
+                            name="roster_family"
+                            class="form-control"
+                            value="{{ roster_item.family }}"
+                          >
+                        </div>
+                        <div class="col-12 col-md-3">
+                          <label class="form-label fw-semibold">Snack</label>
+                          <input
+                            type="text"
+                            name="roster_snack"
+                            class="form-control"
+                            value="{{ roster_item.snack }}"
+                          >
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  {% endfor %}
+
+                  <div class="col-12">
+                    <p class="text-secondary small mb-0">
+                      Leave an entire row blank to remove it from the snack roster.
+                    </p>
+                  </div>
+
+                  <div class="col-12">
+                    <button type="submit" class="btn btn-primary">
+                      Save Snack Roster
+                    </button>
+                  </div>
+                </form>
+              </div>
+            </article>
+          </div>
+        </div>
       </div>
 
       <div class="col-12 col-xl-5">

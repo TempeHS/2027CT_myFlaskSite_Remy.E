@@ -30,6 +30,7 @@ IMAGE_EXTENSIONS = {".jpg", ".jpeg", ".png", ".webp", ".gif"}
 VALID_SCHOOL_YEARS = ["7", "8", "9", "10", "11", "12"]
 SIGN_UPS_FILE = Path(app.root_path) / "data" / "sign_ups.csv"
 PERFORMANCES_FILE = Path(app.root_path) / "data" / "upcoming_performances.json"
+SNACK_ROSTER_FILE = Path(app.root_path) / "data" / "snack_roster.json"
 IMAGES_DIR = Path(app.static_folder) / "res" / "images"
 LICENSE_FILE = Path(app.root_path) / "LICENSE"
 ATTRIBUTION_FILE = Path(app.root_path) / "copyrightInfo.txt"
@@ -135,6 +136,39 @@ FAQS = [
     },
 ]
 
+DEFAULT_SNACK_ROSTER_ITEMS = [
+    {
+        "date": "24/06/26",
+        "event": "Rehearsal",
+        "family": "Kenyon",
+        "snack": "Muffins",
+    },
+    {
+        "date": "1/07/26",
+        "event": "Rehearsal",
+        "family": "Ellis",
+        "snack": "Banana bread",
+    },
+    {
+        "date": "8/07/26",
+        "event": "Rehearsal",
+        "family": "Nguyen",
+        "snack": "Popcorn bags",
+    },
+    {
+        "date": "15/07/26",
+        "event": "Rehearsal",
+        "family": "Patel",
+        "snack": "Fruit cups",
+    },
+]
+
+SNACK_ROSTER_NOTES = [
+    "Please label food clearly if it contains common allergens.",
+    "Bring items to the music room before the performance call time.",
+    "Use sealed or individually packed snacks where possible.",
+]
+
 
 def load_gallery_images():
   gallery_images = []
@@ -171,6 +205,7 @@ def get_last_updated_date():
       Path(app.root_path) / "static",
       LICENSE_FILE,
       PERFORMANCES_FILE,
+      SNACK_ROSTER_FILE,
   ]
   latest_timestamp = 0.0
 
@@ -239,6 +274,55 @@ def performance_form_rows():
     )
 
   return performances
+
+
+def load_snack_roster_items():
+  if not SNACK_ROSTER_FILE.exists():
+    return [item.copy() for item in DEFAULT_SNACK_ROSTER_ITEMS]
+
+  try:
+    saved_items = json.loads(SNACK_ROSTER_FILE.read_text(encoding="utf-8"))
+  except (OSError, json.JSONDecodeError):
+    return [item.copy() for item in DEFAULT_SNACK_ROSTER_ITEMS]
+
+  roster_items = []
+  for item in saved_items:
+    roster_items.append(
+        {
+            "date": item.get("date", "").strip(),
+            "event": item.get("event", "").strip(),
+            "family": item.get("family", "").strip(),
+            "snack": item.get("snack", "").strip(),
+        }
+    )
+
+  cleaned_items = [item for item in roster_items if any(item.values())]
+  return cleaned_items or [item.copy() for item in DEFAULT_SNACK_ROSTER_ITEMS]
+
+
+def save_snack_roster_items(roster_items):
+  SNACK_ROSTER_FILE.parent.mkdir(exist_ok=True)
+  SNACK_ROSTER_FILE.write_text(
+      json.dumps(roster_items, indent=2),
+      encoding="utf-8",
+  )
+
+
+def snack_roster_form_rows():
+  roster_items = load_snack_roster_items()
+  minimum_rows = 6
+
+  while len(roster_items) < minimum_rows:
+    roster_items.append(
+        {
+            "date": "",
+            "event": "",
+            "family": "",
+            "snack": "",
+        }
+    )
+
+  return roster_items
 
 
 def blank_sign_up_form():
@@ -552,7 +636,11 @@ def music():
 @app.route("/snack-roster")
 @app.route("/snack-roster/mono")
 def snack_roster():
-  return render_template("snack_roster.html")
+  return render_template(
+      "snack_roster.html",
+      snack_roster_items=load_snack_roster_items(),
+      snack_roster_notes=SNACK_ROSTER_NOTES,
+  )
 
 @app.route("/faqs")
 @app.route("/faqs/mono")
@@ -610,6 +698,7 @@ def sign_up():
 @admin_required
 def admin_dashboard():
   performance_rows = performance_form_rows()
+  snack_roster_rows = snack_roster_form_rows()
   search_query = request.args.get("search", "")
   sign_ups = load_sign_ups()
 
@@ -659,9 +748,35 @@ def admin_dashboard():
 
       return redirect(mono_path_for("admin_dashboard"))
 
+    if action == "snack_roster":
+      dates = request.form.getlist("roster_date")
+      events = request.form.getlist("roster_event")
+      families = request.form.getlist("roster_family")
+      snacks = request.form.getlist("roster_snack")
+      updated_roster_items = []
+
+      for date, event, family, snack in zip(dates, events, families, snacks):
+        cleaned_row = {
+            "date": date.strip(),
+            "event": event.strip(),
+            "family": family.strip(),
+            "snack": snack.strip(),
+        }
+        if any(cleaned_row.values()):
+          updated_roster_items.append(cleaned_row)
+
+      if updated_roster_items:
+        save_snack_roster_items(updated_roster_items)
+        flash("Snack roster updated.", "success")
+      else:
+        flash("Please keep at least one snack roster row.", "warning")
+
+      return redirect(mono_path_for("admin_dashboard"))
+
   return render_template(
       "admin.html",
       performance_rows=performance_rows,
+      snack_roster_rows=snack_roster_rows,
       sign_ups=filtered_sign_ups,
       search_query=search_query,
   )
