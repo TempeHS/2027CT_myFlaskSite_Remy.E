@@ -48,39 +48,42 @@
       {% endblock %}
     </main>
 
-    <footer class="site-footer border-top py-4 mt-auto">
+    <footer class="site-footer border-top py-3 mt-auto">
       <div class="container">
-        <div class="row g-4 align-items-start">
-          <div class="col-12 col-lg-7">
-            <p class="site-footer-line mb-2 small text-white d-flex flex-wrap gap-3">
+        <div class="row g-2 align-items-center justify-content-between">
+          <div class="col-12 col-lg-8 site-footer-meta">
+            <p class="site-footer-line mb-1 small text-white d-flex flex-wrap gap-3">
               <span>&copy; Remy Ellis {{ current_year }}</span>
               <span>Last Updated: {{ last_updated }}</span>
               <a href="{{ url_for('license_text') }}" class="link-light text-decoration-none">LICENSE</a>
               <a href="{{ github_repo_url }}" target="_blank" rel="noopener noreferrer" class="link-light text-decoration-none">GitHub</a>
               <a href="{{ url_for('attribution_text') }}" class="link-light text-decoration-none">Attribution</a>
             </p>
-            <p class="small text-white-50 mb-0">Accessibility settings stay on as you move between pages.</p>
           </div>
 
-          <div class="col-12 col-lg-5">
-            <div class="site-footer-accessibility rounded-4 p-3">
+          <div class="col-12 col-lg-auto site-footer-controls">
+            <div class="site-footer-accessibility rounded-4 p-2">
               <button
-                class="btn btn-outline-light btn-sm d-flex align-items-center justify-content-between w-100 site-footer-accessibility-toggle"
+                class="btn btn-outline-light btn-sm d-inline-flex align-items-center gap-2 site-footer-accessibility-toggle"
                 type="button"
                 data-bs-toggle="collapse"
                 data-bs-target="#footerAccessibilityPanel"
                 aria-expanded="false"
                 aria-controls="footerAccessibilityPanel"
               >
+                <img
+                  src="{{ url_for('static', filename='res/accessibility.svg') }}"
+                  alt=""
+                  class="site-footer-accessibility-icon"
+                  aria-hidden="true"
+                >
                 <span>Accessibility</span>
-                <span class="small text-white-50">Expand</span>
+                <span class="small text-white-50 site-footer-accessibility-hint">Expand</span>
               </button>
 
               <div class="collapse mt-3" id="footerAccessibilityPanel">
-                <form method="post" action="{{ mono_url('update_accessibility') }}">
+                <form method="post" action="{{ mono_url('update_accessibility') }}" class="site-footer-accessibility-form">
                   <input type="hidden" name="next_url" value="{{ request.path }}">
-
-                  <p class="small text-white-50 mb-3">Reading and display settings stay on as you move between pages.</p>
 
                   <div class="d-grid gap-2">
                     <div class="form-check form-switch text-white mb-0">

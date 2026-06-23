@@ -65,6 +65,7 @@ def test_home_page_contains_main_content_and_footer_links(client):
     assert b"Attribution" in response.data
     assert b"Accessibility" in response.data
     assert b"footerAccessibilityPanel" in response.data
+    assert b"res/accessibility.svg" in response.data
 
 
 def test_home_alias_route_loads(client):

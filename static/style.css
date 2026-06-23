@@ -96,21 +96,54 @@ h6 {
 
 .site-footer-line {
   scrollbar-width: thin;
+  line-height: 1.25;
+}
+
+.site-footer-meta,
+.site-footer-controls {
+  align-self: flex-start;
+}
+
+.site-footer-controls {
+  margin-top: -0.15rem;
 }
 
 .site-footer-accessibility {
+  display: inline-block;
   background: rgba(255, 255, 255, 0.08);
   border: 1px solid rgba(255, 255, 255, 0.18);
 }
 
 .site-footer-accessibility-toggle {
   border-width: 1px;
+  white-space: nowrap;
+  padding: 0.2rem 0.65rem;
+  line-height: 1.2;
+}
+
+.site-footer-accessibility-icon {
+  width: 0.95rem;
+  height: 0.95rem;
+  display: inline-block;
+  flex: 0 0 auto;
+}
+
+.site-footer-accessibility-form {
+  width: min(100%, 18rem);
+}
+
+.site-footer-accessibility-hint {
+  font-size: 0.72rem;
 }
 
 .site-footer-accessibility .collapse.show,
 .site-footer-accessibility .collapsing {
   border-top: 1px solid rgba(255, 255, 255, 0.12);
-  padding-top: 1rem;
+  padding-top: 0.5rem;
+}
+
+.site-footer-accessibility .form-check {
+  font-size: 0.95rem;
 }
 
 .hero-image {
@@ -306,5 +339,14 @@ h6 {
 @media (max-width: 768px) {
   .pdf-viewer {
     height: 380px;
+  }
+
+  .site-footer-accessibility {
+    display: block;
+  }
+
+  .site-footer-accessibility-toggle,
+  .site-footer-accessibility-form {
+    width: 100%;
   }
 }
