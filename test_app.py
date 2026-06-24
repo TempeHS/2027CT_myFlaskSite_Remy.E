@@ -62,6 +62,7 @@ def test_home_page_loads(client):
 def test_home_page_contains_main_content_and_footer_links(client):
     response = client.get("/")
     assert b"Tempe High School Choir" in response.data
+    assert b"res/images/ChoirLogo.png" in response.data
     assert b"Upcoming Performances:" in response.data
     assert b"LICENSE" in response.data
     assert b"GitHub" in response.data

@@ -74,6 +74,25 @@ h6 {
   color: var(--site-body-text);
 }
 
+.site-navbar-logo {
+  height: 2rem;
+  width: auto;
+  display: inline-block;
+  object-fit: contain;
+  transform: translateX(-0.9rem) scale(1.75);
+  transform-origin: left center;
+}
+
+.navbar-brand {
+  overflow: visible;
+}
+
+@media (max-width: 991.98px) {
+  .site-navbar-logo {
+    transform: scale(1.4);
+  }
+}
+
 .site-stat-value {
   font-size: 1.75rem;
   font-weight: 700;
