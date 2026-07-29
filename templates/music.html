@@ -8,22 +8,17 @@
     <div class="d-flex flex-column flex-lg-row justify-content-between align-items-lg-center gap-3 mb-4">
       <div>
         <h1 class="display-5 fw-semibold">Music</h1>
-        <p class="lead mb-0">Sheet music and tracks.</p>
       </div>
       <div class="d-flex flex-column flex-sm-row align-items-sm-center gap-2">
         <span class="badge text-bg-dark">{{ music_total }} files</span>
-        <input
-          type="search"
-          id="musicSearch"
-          class="form-control"
-          placeholder="Search music"
-        >
+        <input type="search" id="musicSearch" class="form-control" placeholder="Search music">
       </div>
     </div>
 
     <div class="row g-4">
       {% for piece in sheet_music %}
-      <div class="col-12 col-lg-6 music-item" data-music-item data-search-text="{{ (piece.title ~ ' ' ~ piece.description)|lower }}">
+      <div class="col-12 col-lg-6 music-item" data-music-item
+        data-search-text="{{ (piece.title ~ ' ' ~ piece.description)|lower }}">
         <article class="card border-0 shadow-sm site-panel h-100">
           <div class="card-body p-4">
             <div class="mb-3">
@@ -35,17 +30,13 @@
               <iframe
                 src="{{ url_for('static', filename='res/sheetMusic/' ~ piece.filename) }}#toolbar=0&navpanes=0&scrollbar=1"
                 class="pdf-viewer w-100 border-0 d-block bg-white"
-                title="{{ piece.title }} sheet music preview"
-              ></iframe>
+                title="{{ piece.title }} sheet music preview"></iframe>
             </div>
 
             <div class="d-flex flex-wrap gap-3 mt-3">
-              <a
-                class="btn btn-outline-dark"
-                href="{{ url_for('static', filename='res/sheetMusic/' ~ piece.filename) }}"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
+              <a class="btn btn-outline-dark"
+                href="{{ url_for('static', filename='res/sheetMusic/' ~ piece.filename) }}" target="_blank"
+                rel="noopener noreferrer">
                 Open PDF
               </a>
             </div>

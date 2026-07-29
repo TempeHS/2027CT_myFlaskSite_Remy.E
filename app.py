@@ -1,4 +1,5 @@
 import csv
+import hmac
 import json
 import os
 import re
@@ -16,7 +17,10 @@ from flask import (
     session,
     url_for,
 )
+from dotenv import load_dotenv
 from werkzeug.utils import secure_filename
+
+load_dotenv()
 
 app = Flask(__name__)
 app.secret_key = os.environ.get("FLASK_SECRET_KEY", "tempe-choir-dev-secret")
@@ -44,6 +48,7 @@ ADMIN_SIGN_IN = {
     "school_year": "12",
     "email": "admin",
 }
+ADMIN_PASSWORD = os.environ.get("ADMIN_PASSWORD")
 
 SHEET_MUSIC = [
     {
@@ -360,6 +365,8 @@ def is_admin_sign_in_attempt(form_data):
       form_data["full_name"].strip().lower() == ADMIN_SIGN_IN["full_name"]
       and form_data["school_year"].strip() == ADMIN_SIGN_IN["school_year"]
       and form_data["email"].strip().lower() == ADMIN_SIGN_IN["email"]
+      and ADMIN_PASSWORD is not None
+      and hmac.compare_digest(form_data.get("admin_password", ""), ADMIN_PASSWORD)
   )
 
 
@@ -666,6 +673,7 @@ def sign_up():
         "full_name": request.form.get("full_name", ""),
         "school_year": request.form.get("school_year", ""),
         "email": request.form.get("email", ""),
+        "admin_password": request.form.get("admin_password", ""),
     }
 
     if is_admin_sign_in_attempt(submitted_data):

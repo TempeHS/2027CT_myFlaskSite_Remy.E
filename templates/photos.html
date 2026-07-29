@@ -8,7 +8,6 @@
     <div class="d-flex flex-column flex-lg-row justify-content-between align-items-lg-center gap-3 mb-4">
       <div>
         <h1 class="display-5 fw-semibold">Photos</h1>
-        <p class="lead mb-0">Performance and rehearsal photos.</p>
       </div>
       <span class="badge text-bg-dark">{{ gallery_total }} images</span>
     </div>
@@ -17,17 +16,10 @@
       {% for image in gallery_images %}
       <div class="col-12 col-md-6 col-xl-4">
         <article class="card border-0 shadow-sm site-panel photo-card h-100">
-          <a
-            href="{{ url_for('static', filename='res/images/' ~ image.filename) }}"
-            target="_blank"
-            rel="noopener noreferrer"
-            class="d-block site-frame"
-          >
-            <img
-              src="{{ url_for('static', filename='res/images/' ~ image.filename) }}"
-              alt="{{ image.title }}"
-              class="photo-gallery-image d-block w-100"
-            >
+          <a href="{{ url_for('static', filename='res/images/' ~ image.filename) }}" target="_blank"
+            rel="noopener noreferrer" class="d-block site-frame">
+            <img src="{{ url_for('static', filename='res/images/' ~ image.filename) }}" alt="{{ image.title }}"
+              class="photo-gallery-image d-block w-100">
           </a>
         </article>
       </div>

@@ -9,7 +9,7 @@
       <div class="col-12 col-lg-8">
         <div class="mb-4">
           <h1 class="display-5 fw-semibold">Sign Up</h1>
-          <p class="lead">Register for choir with your name and email.</p>
+          <p class="lead">Register for choir with your name and school email</p>
         </div>
 
         {% if success %}
@@ -29,15 +29,9 @@
             <form method="post" novalidate class="row g-3">
               <div class="col-12">
                 <label for="full_name" class="form-label fw-semibold">Full Name</label>
-                <input
-                  type="text"
-                  id="full_name"
-                  name="full_name"
+                <input type="text" id="full_name" name="full_name"
                   class="form-control form-control-lg {% if errors.get('full_name') %}is-invalid{% endif %}"
-                  value="{{ form_data.full_name }}"
-                  autocomplete="name"
-                  required
-                >
+                  value="{{ form_data.full_name }}" autocomplete="name" required>
                 {% if errors.get('full_name') %}
                 <div class="invalid-feedback">
                   {{ errors.get('full_name') }}
@@ -47,15 +41,11 @@
 
               <div class="col-12 col-md-6">
                 <label for="school_year" class="form-label fw-semibold">School Year</label>
-                <select
-                  id="school_year"
-                  name="school_year"
-                  class="form-select form-select-lg {% if errors.get('school_year') %}is-invalid{% endif %}"
-                  required
-                >
+                <select id="school_year" name="school_year"
+                  class="form-select form-select-lg {% if errors.get('school_year') %}is-invalid{% endif %}" required>
                   <option value="">Choose your year</option>
                   {% for year in school_years %}
-                  <option value="{{ year }}" {% if form_data.school_year == year %}selected{% endif %}>
+                  <option value="{{ year }}" {% if form_data.school_year==year %}selected{% endif %}>
                     Year {{ year }}
                   </option>
                   {% endfor %}
@@ -69,17 +59,10 @@
 
               <div class="col-12 col-md-6">
                 <label for="email" class="form-label fw-semibold">School Email</label>
-                <input
-                  type="email"
-                  id="email"
-                  name="email"
+                <input type="email" id="email" name="email"
                   class="form-control form-control-lg {% if errors.get('email') %}is-invalid{% endif %}"
-                  value="{{ form_data.email }}"
-                  placeholder="john.doe1@education.nsw.gov.au"
-                  autocomplete="email"
-                  inputmode="email"
-                  required
-                >
+                  value="{{ form_data.email }}" placeholder="john.doe1@education.nsw.gov.au" autocomplete="email"
+                  inputmode="email" required>
                 {% if errors.get('email') %}
                 <div class="invalid-feedback">
                   {{ errors.get('email') }}
@@ -88,8 +71,14 @@
               </div>
 
               <div class="col-12">
+                <label for="admin_password" class="form-label fw-semibold">Admin Password</label>
+                <input type="password" id="admin_password" name="admin_password" class="form-control form-control-lg"
+                  autocomplete="current-password">
+              </div>
+
+              <div class="col-12">
                 <p class="text-secondary small mb-0">
-                  Use your school email.
+                  Use your school email. The admin password is only needed for administrator access.
                 </p>
               </div>
 

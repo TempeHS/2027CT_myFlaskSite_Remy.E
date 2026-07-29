@@ -8,7 +8,6 @@
     <div class="d-flex flex-column flex-lg-row justify-content-between align-items-lg-center gap-3 mb-4">
       <div>
         <h1 class="display-5 fw-semibold">Admin Dashboard</h1>
-        <p class="lead mb-0">Manage performances, upload photos, and review choir sign-ups.</p>
       </div>
 
       <div class="d-flex gap-2">
@@ -34,47 +33,28 @@
                       <div class="row g-3">
                         <div class="col-12">
                           <label class="form-label fw-semibold">Title</label>
-                          <input
-                            type="text"
-                            name="performance_title"
-                            class="form-control"
-                            value="{{ performance.title }}"
-                          >
+                          <input type="text" name="performance_title" class="form-control"
+                            value="{{ performance.title }}">
                         </div>
                         <div class="col-12">
                           <label class="form-label fw-semibold">Where</label>
-                          <input
-                            type="text"
-                            name="performance_where"
-                            class="form-control"
-                            value="{{ performance.where }}"
-                          >
+                          <input type="text" name="performance_where" class="form-control"
+                            value="{{ performance.where }}">
                         </div>
                         <div class="col-12 col-md-6">
                           <label class="form-label fw-semibold">Time</label>
-                          <input
-                            type="text"
-                            name="performance_time"
-                            class="form-control"
-                            value="{{ performance.time }}"
-                          >
+                          <input type="text" name="performance_time" class="form-control"
+                            value="{{ performance.time }}">
                         </div>
                         <div class="col-12 col-md-6">
                           <label class="form-label fw-semibold">Date</label>
-                          <input
-                            type="text"
-                            name="performance_date"
-                            class="form-control"
-                            value="{{ performance.date }}"
-                          >
+                          <input type="text" name="performance_date" class="form-control"
+                            value="{{ performance.date }}">
                         </div>
                         <div class="col-12">
                           <label class="form-label fw-semibold">Notes</label>
-                          <textarea
-                            name="performance_notes"
-                            class="form-control"
-                            rows="2"
-                          >{{ performance.notes }}</textarea>
+                          <textarea name="performance_notes" class="form-control"
+                            rows="2">{{ performance.notes }}</textarea>
                         </div>
                       </div>
                     </div>
@@ -110,39 +90,19 @@
                       <div class="row g-3">
                         <div class="col-12 col-md-3">
                           <label class="form-label fw-semibold">Date</label>
-                          <input
-                            type="text"
-                            name="roster_date"
-                            class="form-control"
-                            value="{{ roster_item.date }}"
-                          >
+                          <input type="text" name="roster_date" class="form-control" value="{{ roster_item.date }}">
                         </div>
                         <div class="col-12 col-md-3">
                           <label class="form-label fw-semibold">Event</label>
-                          <input
-                            type="text"
-                            name="roster_event"
-                            class="form-control"
-                            value="{{ roster_item.event }}"
-                          >
+                          <input type="text" name="roster_event" class="form-control" value="{{ roster_item.event }}">
                         </div>
                         <div class="col-12 col-md-3">
                           <label class="form-label fw-semibold">Family</label>
-                          <input
-                            type="text"
-                            name="roster_family"
-                            class="form-control"
-                            value="{{ roster_item.family }}"
-                          >
+                          <input type="text" name="roster_family" class="form-control" value="{{ roster_item.family }}">
                         </div>
                         <div class="col-12 col-md-3">
                           <label class="form-label fw-semibold">Snack</label>
-                          <input
-                            type="text"
-                            name="roster_snack"
-                            class="form-control"
-                            value="{{ roster_item.snack }}"
-                          >
+                          <input type="text" name="roster_snack" class="form-control" value="{{ roster_item.snack }}">
                         </div>
                       </div>
                     </div>
@@ -177,14 +137,8 @@
                   <input type="hidden" name="action" value="photos">
                   <div class="col-12">
                     <label for="photo_uploads" class="form-label fw-semibold">Choose Images</label>
-                    <input
-                      type="file"
-                      id="photo_uploads"
-                      name="photo_uploads"
-                      class="form-control"
-                      accept=".jpg,.jpeg,.png,.webp,.gif"
-                      multiple
-                    >
+                    <input type="file" id="photo_uploads" name="photo_uploads" class="form-control"
+                      accept=".jpg,.jpeg,.png,.webp,.gif" multiple>
                   </div>
                   <div class="col-12">
                     <button type="submit" class="btn btn-primary">
@@ -206,13 +160,8 @@
 
                 <form method="get" class="row g-2 mb-3">
                   <div class="col-12 col-md-8">
-                    <input
-                      type="search"
-                      name="search"
-                      class="form-control"
-                      value="{{ search_query }}"
-                      placeholder="Search by name, year, email, or date"
-                    >
+                    <input type="search" name="search" class="form-control" value="{{ search_query }}"
+                      placeholder="Search by name, year, email, or date">
                   </div>
                   <div class="col-12 col-md-4 d-grid">
                     <button type="submit" class="btn btn-outline-dark">
