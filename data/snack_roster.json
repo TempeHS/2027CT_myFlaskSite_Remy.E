@@ -22,5 +22,11 @@
     "event": "Rehearsal",
     "family": "Patel",
     "snack": "Fruit cups"
+  },
+  {
+    "date": "1/01/00",
+    "event": "Perfomance",
+    "family": "Ellis",
+    "snack": "Popcorn"
   }
 ]

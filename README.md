@@ -1,118 +1,49 @@
-# Tempe High Choir Website
+# Evaluation
 
-A Flask website for the Tempe High School Choir. The site gives students and families one place to check upcoming performances, browse sheet music, view photos, read FAQs, sign up for choir, and view the snack roster.
+## Section 1: Overview
 
-## Description
+This is a Flask website built to help members of the Tempe High School Choir better interact with parts of the choir like accessing sheet music or viewing the snack roster. It also provides information for people looking to join the choir and provide an easy way for them to sign up.
 
-This project was built as a school web development task using Python and Flask. It includes public pages for choir members and families, plus a small admin area for updating content. Performance information and snack roster data are saved in JSON files, sign-ups are stored in CSV format, and gallery images are loaded from the `static` folder.
+It's built with a combination of Flask, Jina2, HTML, CSS and Bootstrap.
 
-Main features:
+## Section 2: Evaluation Against Statement of Intent
 
-- Home page with upcoming performances, a featured event card, and photo carousel
-- Music page with embedded sheet music PDFs
-- FAQ page with search
-- Photo gallery
-- Choir sign-up form with validation
-- Snack roster page
-- Admin dashboard for performances, snack roster entries, and photo uploads
-- Accessibility options including OpenDyslexic font, dark mode, and larger text
+### 2.1 Homepage
 
-## Project Structure
+My website contains a clean and informative homepage with a main Hero Image and a carousel to entice possible members as well as information on upcoming performances to help both potential new members as well as current ones. Clicking on the logo also takes you to `/home`
 
-Important files and folders:
+### 2.2 Music
 
-- `app.py`: main Flask application
-- `templates/`: HTML templates
-- `static/`: CSS, images, icons, and sheet music PDFs
-- `data/`: saved choir sign-ups, performances, and snack roster data
-- `test_app.py`: automated tests
+The Music page contains sheet music for members to reference as downloadable PDFs that can also be run in the browser. You are also able to search the files. It is lacking audio tracks as I was not able to obtain any from my teacher due to copyright.
 
-## Getting Started
+### 2.3 FAQs
 
-### Dependencies
+There are FAQs in an accordion menu with useful information for mainly new members. You can also search keywords and it will look both in the Question and Answer.
 
-- Python 3.11 or later
-- Flask `3.1.3`
-- pytest `9.0.3` or later
+### 2.4 Photos
 
-Install dependencies with:
+There are photos in a responsive Bootstrap table with hover animations. I was not able to obtain any more photos from my Choir Teacher.
 
-```powershell
-pip install -r requirements.txt
-```
+### 2.5 Sign Up
 
-### Running the Website
+There is a Sign Up page that lets you enter your name, email and year which gets sent to the backend. This lets the Teacher track who signed up and who is currently participating in Choir.
 
-From the project folder, run:
+### 2.6 Admin Page
 
-```powershell
-python app.py
-```
+By entering admin and year 12 in all applicable fields and then the `ADMIN_PASSWORD` stored in the `.env` file, you are able to access the admin page. This lets you edit the Snack Roster and Upcoming Performances as well as look at sign-ups and download them to a csv file. You are also able to upload photos to be displayed. All edits made by admin are stored in `.json` files. You can log out of admin in the top right of the navbar.
 
-The site will be available at:
+### 2.7 Footer
 
-```text
-http://127.0.0.1:5000
-```
+The footer contains my name and copyright ((c) Remy Ellis 2026), a dynamic 'Last Updated:', a link to the `LICENSE`, Github and Copyright Info.
 
-### Running the Tests
+### 2.8 Accessibility
 
-Run the automated tests with:
+There are four accessibility features. Links to `Skip to Main Content` and three settings in the footer: OpenDyslexic Font, Larger Text and Dark Mode. This makes the website more accessible to certain users. Accessibility features persist across pages.
 
-```powershell
-pytest -v
-```
+## Overall Effectiveness
 
-## Data and Content
+Overall, I believe my website has been highly effective in it's goal in improving availability of infomation to both members of Choir and those looking to join.
 
-The project saves its content in local files:
+It falls short in a lack of photos and audio tracks I was able to obtain as well as slightly slow loading of pages containing multiple images.
 
-- `data/sign_ups.csv`: choir sign-up submissions
-- `data/upcoming_performances.json`: performance data for the home page
-- `data/snack_roster.json`: snack roster entries
-
-Uploaded images are stored in:
-
-```text
-static/res/images/
-```
-
-## Accessibility Features
-
-The site includes accessibility settings:
-
-- OpenDyslexic font mode
-- Dark mode
-- Larger text mode
-- Skip to content link
-
-These settings can be changed from the footer accessibility menu.
-
-## Help
-
-If the site does not start:
-
-- Make sure Python is installed
-- Make sure dependencies were installed with `pip install -r requirements.txt`
-- Make sure you are running the command from the project folder
-
-If tests fail, run:
-
-```powershell
-python -m pytest -q
-```
-
-## Author
-
-Remy Ellis
-
-## License
-
-This project is licensed under the MIT License. See [LICENSE](LICENSE) for details.
-
-## Acknowledgments
-
-- [GitHub Markdown documentation](https://docs.github.com/en/get-started/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax)
-- [TempeHS Python Flask DevContainer template](https://github.com/TempeHS/TempeHS_Python-Flask_DevContainer)
-- [Bootstrap](https://getbootstrap.com/)
-- [Flask](https://github.com/pallets/flask?tab=BSD-3-Clause-1-ov-file)
+But overall, my website achieved it's goals
