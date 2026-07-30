@@ -1,18 +1,65 @@
-### 3.2 What You Delivered
+# Tempe High School Choir Website
 
-| Page          | What it delivers                                                                                                                |
-| ------------- | ------------------------------------------------------------------------------------------------------------------------------- |
-| Homepage      | Clean and informative homepage with a main Hero Image, carousel and information on upcoming performances.                       |
-| Music         | Sheet music for members as downloadable PDFs that can also be viewed in the browser, as well as file searching.                 |
-| FAQs          | FAQs in an accordion menu with keyword searching through both the Question and Answer.                                          |
-| Photos        | Photos in a responsive Bootstrap table with hover animations.                                                                   |
-| Sign Up       | Lets users enter their name, email and year, which gets sent to the backend.                                                    |
-| Snack Roster  | Shows the weekly roster for who is bringing snacks, with the roster able to be updated through the admin page.                  |
-| Admin         | Lets the Teacher edit the Snack Roster and Upcoming Performances, view sign-ups, download them to a CSV file and upload photos. |
-| Footer        | Contains my name and copyright, a dynamic 'Last Updated:', and links to the `LICENSE`, GitHub and Copyright Info.               |
-| Accessibility | `Skip to Main Content`, OpenDyslexic Font, Larger Text and Dark Mode, with accessibility features persisting across pages.      |
+| Field               | Detail                                                              |
+| ------------------- | ------------------------------------------------------------------- |
+| **Website Title**   | Tempe High School Choir                                             |
+| **Student Name(s)** | Remy Ellis                                                          |
+| **Class / Course**  | 2027CT                                                              |
+| **Repository**      | [GitHub Repo](https://github.com/TempeHS/2027CT_myFlaskSite_Remy.E) |
+| **Date**            | 30/07/26                                                            |
 
-### 3.3 Evaluation Against Your Intent
+---
+
+## 1. Overview
+
+**Purpose:** This is a Flask website built to help members of the Tempe High School Choir better interact with parts of the choir like accessing sheet music or viewing the snack roster. It also provides information for people looking to join the choir and provides an easy way for them to sign up.
+
+**Target audience:** Current members of the Tempe High School Choir and people looking to join the choir.
+
+**Technology stack:** Flask · Jinja2 · HTML · CSS · Bootstrap
+
+---
+
+## 2. Walkthrough Video
+
+| Field            | Detail                                     |
+| ---------------- | ------------------------------------------ |
+| **Link / Embed** | [Demo Video](https://youtu.be/n_m2ZYHP0cA) |
+| **Duration**     | 3:23                                       |
+
+---
+
+## 3. Evaluation
+
+### 3.1 Statement of Intent
+
+#### What is the Website?
+
+The website will be an information and sign-up website for students looking to join or currently in the Tempe High Choir. It will have a homepage with our songs and their audio tracks and sheet music. It will also have the weekly roster for those bringing snacks and general information about time and location and upcoming events for those looking to join as well as a way to sign up for choir.
+
+#### Why is it Needed?
+
+This website is necessary as many students don't know when or where choir is and how to join. It's also currently difficult to find the sheet music and there's no organisation on who’s bringing snacks and tea. And it will let students keep track of upcoming events. This website will help by letting students sign up through a form, letting teachers know who's a part of it. A lot of students also would join choir but don't know when and where it's on so this will help spread the word. Having easy access to audio tracks and sheet music will make it easier to rehearse at home.
+
+#### Who is it For?
+
+The website is primarily for members of the choir. And secondarily for people looking to join and the teacher(s) running it. This website will make it much easier for choir members to rehearse at home, keep track of upcoming events and who needs to bring food that week. It will also make it much easier to join choir and for teachers to know who's a part of it.
+
+### 3.2 What I Delivered
+
+| Page / Feature | Route                 | What it delivers                                                                                                                |
+| -------------- | --------------------- | ------------------------------------------------------------------------------------------------------------------------------- |
+| Homepage       | `/home`               | Clean and informative homepage with a main Hero Image, carousel and information on upcoming performances.                       |
+| Music          | `/music`              | Sheet music for members as downloadable PDFs that can also be viewed in the browser, as well as file searching.                 |
+| Snack Roster   | `/snack-roster`       | Shows the weekly roster for who is bringing snacks, with the roster able to be updated through the admin page.                  |
+| FAQs           | `/faqs`               | FAQs in an accordion menu with keyword searching through both the Question and Answer.                                          |
+| Photos         | `/photos`             | Photos in a responsive Bootstrap table with hover animations.                                                                   |
+| Sign Up        | `/sign-up`            | Lets users enter their name, email and year, which gets sent to the backend.                                                    |
+| Admin          | `/admin`              | Lets the Teacher edit the Snack Roster and Upcoming Performances, view sign-ups, download them to a CSV file and upload photos. |
+| Footer         | Across all main pages | Contains my name and copyright, a dynamic 'Last Updated:', and links to the `LICENSE`, GitHub and Copyright Info.               |
+| Accessibility  | Across all main pages | `Skip to Main Content`, OpenDyslexic Font, Larger Text and Dark Mode, with accessibility features persisting across pages.      |
+
+### 3.3 Evaluation Against My Intent
 
 #### Homepage
 
@@ -73,3 +120,19 @@ It falls short in a lack of photos and audio tracks I was able to obtain as well
 The main part of my original intent that was not achieved was providing audio tracks. If I improved the website further, I would add audio tracks if copyright permission became available and optimise the images to improve loading times.
 
 But overall, my website achieved it's goals.
+
+---
+
+## 4. Acknowledgements
+
+| What you used | Source / Creator  | Licence                   | What you used it for        |
+| ------------- | ----------------- | ------------------------- | --------------------------- |
+| Bootstrap     | Bootstrap team    | MIT                       | Layout and components       |
+| Flask         | Pallets Projects  | BSD                       | Web server and routing      |
+| Jinja2        | Pallets Projects  | BSD                       | HTML templates              |
+| OpenDyslexic  | Abelardo Gonzalez | SIL Open Font License 1.1 | Optional accessibility font |
+| Choir Images  | Erin Tillet       | Copyright                 | Photos on home page         |
+
+---
+
+> **Student Declaration:** All work submitted is my own except where explicitly acknowledged above.
