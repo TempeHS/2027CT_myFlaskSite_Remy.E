@@ -529,14 +529,14 @@ def mono_mode_enabled():
 
 def standard_path_for(endpoint, **values):
   base_path = url_for(endpoint, **values)
+  path, separator, query = base_path.partition("?")
 
-  if base_path == "/mono":
-    return "/"
+  if path == "/mono":
+    path = "/"
+  elif path.endswith("/mono"):
+    path = path[:-5]
 
-  if base_path.endswith("/mono"):
-    return base_path[:-5]
-
-  return base_path
+  return f"{path}{separator}{query}"
 
 
 def mono_path_for(endpoint, **values):
